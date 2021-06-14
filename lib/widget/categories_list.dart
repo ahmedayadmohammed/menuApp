@@ -48,7 +48,7 @@ class _CategoriesWidgetContainerState extends State<CategoriesWidgetContainer> {
                                     catId: widget.category?[index].id,
                                     cat: widget.category,
                                   )),
-                        // );
+                        );
                       },
                       child: Padding(
                           padding: const EdgeInsets.all(14.0),
@@ -59,10 +59,11 @@ class _CategoriesWidgetContainerState extends State<CategoriesWidgetContainer> {
                                 height: MediaQuery.of(context).size.height / 4,
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20.0),
-                                    child: Image.network(
-                                      "https://menu.trendad.agency/storage/${widget.category?[index].image ?? ""}",
-                                      fit: BoxFit.fill,
-                                    )),
+                                    child: FadeInImage.assetNetwork(
+                                        placeholder: 'assets/mainlogo.png',
+                                        image:
+                                            "https://menu.trendad.agency/storage/${widget.category?[index].image ?? ""}",
+                                        fit: BoxFit.fill)),
                               ),
                               Container(
                                   // width: 120.0,

@@ -109,7 +109,7 @@ class CategoryListSide extends StatelessWidget {
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(8.0),
                                     child: Image.network(
-                                      "https://menu.trendad.agency/storage/${category[index].image ?? ""}",
+                                      "https://menu.trendad.agency/storage/${category[index].image}",
                                       fit: BoxFit.fill,
                                     )),
                               ),
@@ -118,7 +118,7 @@ class CategoryListSide extends StatelessWidget {
                                   child: Container(
                                     child: Center(
                                         child: Text(
-                                      "${category[index].nameAr ?? "No name"}",
+                                      "${category[index].nameAr}",
                                       style: TextStyle(
                                           color: HexColor("#586e5c"),
                                           fontSize: 30,
@@ -194,6 +194,7 @@ class _ItemsListState extends State<ItemsList> {
                                   nameEn: snapshot
                                           .data?.data?.food?[index].nameEn ??
                                       "",
+                                      listFood: snapshot.data?.data?.food
                                 )),
                       );
                     },

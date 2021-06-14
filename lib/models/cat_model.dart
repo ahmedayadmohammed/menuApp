@@ -2,6 +2,7 @@
 //
 //     final foodresponse = foodresponseFromJson(jsonString);
 
+import 'package:meta/meta.dart';
 import 'dart:convert';
 
 Foodresponse foodresponseFromJson(String str) =>
@@ -11,12 +12,12 @@ String foodresponseToJson(Foodresponse data) => json.encode(data.toJson());
 
 class Foodresponse {
   Foodresponse({
-    this.success,
-    this.message,
-    this.data,
+    required this.success,
+    required this.message,
+    required this.data,
   });
 
-  bool? success;
+  bool success;
   dynamic message;
   Data? data;
 
@@ -35,14 +36,14 @@ class Foodresponse {
 
 class Data {
   Data({
-    this.storageUrl,
-    this.sliders,
-    this.categories,
-    this.food,
+    required this.storageUrl,
+    required this.sliders,
+    required this.categories,
+    required this.food,
   });
 
-  String? storageUrl;
-  List<SliderMe>? sliders;
+  String storageUrl;
+  List<Slider>? sliders;
   List<Category>? categories;
   List<Food>? food;
 
@@ -50,8 +51,7 @@ class Data {
         storageUrl: json["storage_url"] == null ? null : json["storage_url"],
         sliders: json["sliders"] == null
             ? null
-            : List<SliderMe>.from(
-                json["sliders"].map((x) => SliderMe.fromJson(x))),
+            : List<Slider>.from(json["sliders"].map((x) => Slider.fromJson(x))),
         categories: json["categories"] == null
             ? null
             : List<Category>.from(
@@ -77,29 +77,29 @@ class Data {
 
 class Category {
   Category({
-    this.id,
-    this.nameAr,
-    this.nameEn,
-    this.image,
+    required this.id,
+    required this.nameAr,
+    required this.nameEn,
+    required this.image,
   });
 
-  int? id;
+  int id;
   String? nameAr;
   String? nameEn;
-  dynamic image;
+  String? image;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
         id: json["id"] == null ? null : json["id"],
         nameAr: json["name_ar"] == null ? null : json["name_ar"],
         nameEn: json["name_en"] == null ? null : json["name_en"],
-        image: json["image"],
+        image: json["image"] == null ? null : json["image"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
         "name_ar": nameAr == null ? null : nameAr,
         "name_en": nameEn == null ? null : nameEn,
-        "image": image,
+        "image": image == null ? null : image,
       };
 }
 
@@ -117,23 +117,22 @@ class Food {
   });
 
   int id;
-  String nameAr;
-  String nameEn;
-  String descriptionAr;
-  String descriptionEn;
-  String price;
-  String priceDiscounted;
-  int status;
-  String image;
+  String? nameAr;
+  dynamic nameEn;
+  String? descriptionAr;
+  dynamic descriptionEn;
+  String? price;
+  String? priceDiscounted;
+  int? status;
+  String? image;
 
   factory Food.fromJson(Map<String, dynamic> json) => Food(
         id: json["id"] == null ? null : json["id"],
         nameAr: json["name_ar"] == null ? null : json["name_ar"],
-        nameEn: json["name_en"] == null ? null : json["name_en"],
+        nameEn: json["name_en"],
         descriptionAr:
             json["description_ar"] == null ? null : json["description_ar"],
-        descriptionEn:
-            json["description_en"] == null ? null : json["description_en"],
+        descriptionEn: json["description_en"],
         price: json["price"] == null ? null : json["price"],
         priceDiscounted:
             json["price_discounted"] == null ? null : json["price_discounted"],
@@ -144,9 +143,9 @@ class Food {
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
         "name_ar": nameAr == null ? null : nameAr,
-        "name_en": nameEn == null ? null : nameEn,
+        "name_en": nameEn,
         "description_ar": descriptionAr == null ? null : descriptionAr,
-        "description_en": descriptionEn == null ? null : descriptionEn,
+        "description_en": descriptionEn,
         "price": price == null ? null : price,
         "price_discounted": priceDiscounted == null ? null : priceDiscounted,
         "status": status == null ? null : status,
@@ -154,14 +153,14 @@ class Food {
       };
 }
 
-class SliderMe {
-  SliderMe({
-    this.image,
+class Slider {
+  Slider({
+    required this.image,
   });
 
   String? image;
 
-  factory SliderMe.fromJson(Map<String, dynamic> json) => SliderMe(
+  factory Slider.fromJson(Map<String, dynamic> json) => Slider(
         image: json["image"] == null ? null : json["image"],
       );
 

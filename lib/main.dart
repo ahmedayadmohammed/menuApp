@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:menu_app/extensions/color.dart';
 import 'package:menu_app/providers/color_provider.dart';
 import 'package:menu_app/providers/food_provider.dart';
-import 'package:menu_app/widget/category_detail_list.dart';
 import 'package:menu_app/widget/item_detail.dart';
 import 'package:menu_app/widget/main_home.dart';
+import 'package:menu_app/widget/rating_widget.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -27,7 +27,8 @@ class MyApp extends StatelessWidget {
             routes: {
               '/home': (context) => HomeMainController(),
               // '/cDetails': (context) => CategoryListDetail(),
-              '/itemdetail': (context) => ItemsDetailWidget()
+              '/itemdetail': (context) => ItemsDetailWidget(),
+              '/rating': (context) => RatingControllerWidget()
             },
             theme: ThemeData(
                 fontFamily: 'DINArabic',

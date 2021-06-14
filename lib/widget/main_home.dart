@@ -4,6 +4,7 @@ import 'package:menu_app/extensions/color.dart';
 import 'package:menu_app/models/cat_model.dart';
 import 'package:menu_app/network_modular/http_request.dart';
 import 'package:menu_app/widget/categories_list.dart';
+import 'package:menu_app/widget/rating_widget.dart';
 
 class HomeMainController extends StatelessWidget {
   const HomeMainController({Key? key}) : super(key: key);
@@ -15,6 +16,77 @@ class HomeMainController extends StatelessWidget {
           backgroundColor: HexColor("#586e5c"),
           title: Text("Menu home"),
         ),
+        drawer: SizedBox(
+            width: MediaQuery.of(context).size.width /
+                3, // 75% of screen will be occupied
+            child: Container(
+              color: HexColor("#586e5c"),
+              child: ListView(
+                // Important: Remove any padding from the ListView.
+                padding: EdgeInsets.zero,
+                children: <Widget>[
+                  DrawerHeader(
+                    decoration: BoxDecoration(color: HexColor("#eae6d9")),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 3,
+                      height: 100,
+                      child: Image.asset(
+                        "assets/mainlogo2.png",
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    focusColor: Colors.white12,
+                    trailing: Icon(Icons.arrow_forward_ios_outlined),
+                    subtitle: Text("اعطاء تقييم للمطعم ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: HexColor("#eae6d9"),
+                            fontSize: 15)),
+                    title: Text(
+                      "التقييم",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: HexColor("#eae6d9"),
+                          fontSize: 30),
+                    ),
+                    onTap: () {
+                      Navigator.pop(context);
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RatingControllerWidget()),
+                      );
+                    },
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 50,
+                          child: Text(
+                              "Powered and developed by trend (for marketing and software solutions) LTD",
+                              maxLines: 3,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: HexColor("#eae6d9"),
+                                  fontSize: 15)),
+                        ),
+                        Text("All Copyrights are Reserved by trend 2021",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: HexColor("#eae6d9"),
+                                fontSize: 15))
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            )),
         body: FutureBuilder(
           future: HttpClient.instance
               .getAllDataofHome("https://menu.trendad.agency/api/category"),
@@ -27,8 +99,9 @@ class HomeMainController extends StatelessWidget {
                     SliverToBoxAdapter(
                       child: Container(
                         child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
+                              Spacer(),
                               Padding(
                                 padding: const EdgeInsets.only(right: 60),
                                 child: Container(
@@ -38,7 +111,7 @@ class HomeMainController extends StatelessWidget {
                                     "assets/mainlogo2.png",
                                   ),
                                 ),
-                              )
+                              ),
                             ]),
                         // width: 80,
                         height: 180,
@@ -65,7 +138,7 @@ class HomeMainController extends StatelessWidget {
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(20.0)),
                                               child: Image.network(
-                                                "https://menu.trendad.agency/storage/${snapshot.data?.data?.sliders?[itemIndex].image ?? ""}",
+                                                "https://menu.trendad.agency/storage/${snapshot.data?.data?.sliders?[itemIndex].image}",
                                                 fit: BoxFit.contain,
                                               )))),
                                   onTap: () => {}),
