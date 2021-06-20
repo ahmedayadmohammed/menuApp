@@ -1,5 +1,5 @@
-
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:menu_app/extensions/color.dart';
 import 'package:menu_app/extensions/connections.dart';
@@ -8,6 +8,7 @@ import 'package:menu_app/network_modular/http_request.dart';
 import 'package:menu_app/widget/categories_list.dart';
 import 'package:menu_app/widget/rating_widget.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeMainController extends StatefulWidget {
   const HomeMainController({Key? key}) : super(key: key);
@@ -20,6 +21,26 @@ class _HomeMainControllerState extends State<HomeMainController> {
   bool isConnectected = true;
   Map _source = {ConnectivityResult.none: false};
   MyConnectivity _connectivity = MyConnectivity.instance;
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use refreshFailed()
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    if (mounted)
+      setState(() {
+        fetchItems();
+      });
+    _refreshController.loadComplete();
+  }
 
   fetchItems() {
     HttpClient.instance
@@ -149,15 +170,13 @@ class _HomeMainControllerState extends State<HomeMainController> {
                     AsyncSnapshot<Foodresponse> snapshot) {
                   if (snapshot.hasData) {
                     return Material(
-                        child: RefreshIndicator(
-                      onRefresh: () async {
-                        setState(() {
-                          HttpClient.instance.getAllDataofHome(
-                              "https://menu.trendad.agency/api/category");
-                        });
-
-                        print("ahmed ayad refresher");
-                      },
+                        child: SmartRefresher(
+                      enablePullDown: true,
+                      enablePullUp: true,
+                      header: WaterDropHeader(),
+                      controller: _refreshController,
+                      onRefresh: _onRefresh,
+                      onLoading: _onLoading,
                       child: CustomScrollView(
                         slivers: <Widget>[
                           SliverToBoxAdapter(

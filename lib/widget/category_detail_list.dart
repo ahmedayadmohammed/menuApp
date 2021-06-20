@@ -87,9 +87,20 @@ class CategoryListSide extends StatefulWidget {
 }
 
 class _CategoryListSideState extends State<CategoryListSide> {
+  late AutoScrollController controller;
+
   @override
   void initState() {
     super.initState();
+    controller = AutoScrollController(
+        viewportBoundaryGetter: () =>
+            Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
+        axis: Axis.vertical);
+
+    setState(() {
+      controller.scrollToIndex(widget.index!,
+          preferPosition: AutoScrollPosition.begin);
+    });
   }
 
   @override
@@ -101,59 +112,71 @@ class _CategoryListSideState extends State<CategoryListSide> {
         child: Container(
           color: HexColor("#9c9a71"),
           child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            controller: controller,
             itemCount: widget.category.length,
             itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                  onTap: () {
-                    color.changeSelection(index);
-                    widget.didSeletRowAt!(index);
-                  },
-                  child: Container(
-                    height: 200,
-                    color: color.selectedIndex == index
-                        ? HexColor("#586e5c")
-                        : Colors.transparent,
-                    margin: EdgeInsets.only(top: 10, bottom: 10),
-                    child: Center(
-                      child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Stack(
-                            // fit: exp,
-                            children: [
-                              Container(
-                                height: MediaQuery.of(context).size.height / 7,
-                                width: MediaQuery.of(context).size.width / 5,
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.network(
-                                      "https://menu.trendad.agency/${widget.category[index].image}",
-                                      fit: BoxFit.fill,
-                                    )),
-                              ),
-                              Positioned(
-                                  bottom: 0,
-                                  child: Container(
-                                    child: Center(
-                                        child: Text(
-                                      "${widget.category[index].nameAr}",
-                                      style: TextStyle(
-                                          color: HexColor("#586e5c"),
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                                    decoration: BoxDecoration(
-                                        color: HexColor("#eae6d9"),
-                                        borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(8.0),
-                                            bottomRight: Radius.circular(8.0))),
+              return AutoScrollTag(
+                  key: ValueKey(index),
+                  controller: controller,
+                  index: index,
+                  child: GestureDetector(
+                      onTap: () {
+                        color.changeSelection(index);
+                        widget.didSeletRowAt!(index);
+                      },
+                      child: Container(
+                        height: 200,
+                        color: color.selectedIndex == index
+                            ? HexColor("#586e5c")
+                            : Colors.transparent,
+                        margin: EdgeInsets.only(top: 10, bottom: 10),
+                        child: Center(
+                          child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Stack(
+                                // fit: exp,
+                                children: [
+                                  Container(
+                                    height:
+                                        MediaQuery.of(context).size.height / 7,
                                     width:
                                         MediaQuery.of(context).size.width / 5,
-                                    height: 50,
-                                  ))
-                            ],
-                          )),
-                    ),
-                  ));
+                                    child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: Image.network(
+                                          "https://menu.trendad.agency/${widget.category[index].image}",
+                                          fit: BoxFit.fill,
+                                        )),
+                                  ),
+                                  Positioned(
+                                      bottom: 0,
+                                      child: Container(
+                                        child: Center(
+                                            child: Text(
+                                          "${widget.category[index].nameAr}",
+                                          style: TextStyle(
+                                              color: HexColor("#586e5c"),
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        )),
+                                        decoration: BoxDecoration(
+                                            color: HexColor("#eae6d9"),
+                                            borderRadius: BorderRadius.only(
+                                                bottomLeft:
+                                                    Radius.circular(8.0),
+                                                bottomRight:
+                                                    Radius.circular(8.0))),
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                5,
+                                        height: 50,
+                                      ))
+                                ],
+                              )),
+                        ),
+                      )));
             },
           ),
         ));
@@ -187,7 +210,9 @@ class _ItemsListState extends State<ItemsList> {
       future: HttpClient.instance.getAllDataofHome(
           "https://menu.trendad.agency/api/category/${widget.id}"),
       builder: (BuildContext context, AsyncSnapshot<Foodresponse> snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.hasData &&
+            snapshot.data != null) {
           return GridView.builder(
               shrinkWrap: false,
               gridDelegate:
