@@ -32,10 +32,11 @@ dependencies:
   carousel_slider: ^4.0.0-nullsafety.0
   sqflite: ^2.0.0+3
   checkbox_grouped: ^1.4.0
-
-
+  menu_button: ^1.4.2+1
   cupertino_icons: ^1.0.2
-
+  connectivity: ^3.0.6
+  
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

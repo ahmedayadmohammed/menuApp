@@ -126,6 +126,8 @@ class Food {
   int? status;
   String? image;
 
+
+
   factory Food.fromJson(Map<String, dynamic> json) => Food(
         id: json["id"] == null ? null : json["id"],
         nameAr: json["name_ar"] == null ? null : json["name_ar"],

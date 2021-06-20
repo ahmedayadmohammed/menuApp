@@ -41,8 +41,9 @@ class ItemsDetailWidget extends StatelessWidget {
                 child: CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar(
-                  expandedHeight: 450,
+                  expandedHeight: 300,
                   stretch: true,
+                  foregroundColor: HexColor("#586e5c"),
                   stretchTriggerOffset: 300,
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
@@ -56,8 +57,8 @@ class ItemsDetailWidget extends StatelessWidget {
                       children: [
                         Image.network(
                           change.isSelectionStarted
-                              ? "https://menu.trendad.agency/storage/${change.image ?? ""}"
-                              : "https://menu.trendad.agency/storage/${image ?? ""}",
+                              ? "https://menu.trendad.agency/${change.image ?? ""}"
+                              : "https://menu.trendad.agency/${image ?? ""}",
                           fit: BoxFit.cover,
                         ),
                         const DecoratedBox(
@@ -112,7 +113,7 @@ class ItemsDetailWidget extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: Container(
-                            height: 200,
+                            height: 150,
                             width: MediaQuery.of(context).size.width,
                             child: Center(
                               child: Text(
@@ -161,8 +162,8 @@ class ItemsDetailWidget extends StatelessWidget {
                             itemCount: listFood?.length ?? 0,
                             itemBuilder: (BuildContext context, int index) {
                               return Container(
-                                height: 250,
-                                width: 300,
+                                height: 125,
+                                width: 250,
                                 child: InkWell(
                                     onTap: () {
                                       color.selectedIndex = index;
@@ -192,8 +193,8 @@ class ItemsDetailWidget extends StatelessWidget {
                                                       placeholder:
                                                           'assets/mainlogo.png',
                                                       image:
-                                                          "https://menu.trendad.agency/storage/${listFood?[index].image ?? ""}",
-                                                      fit: BoxFit.fill)),
+                                                          "https://menu.trendad.agency/${listFood?[index].image ?? ""}",
+                                                      fit: BoxFit.cover)),
                                             ),
                                             Container(
                                                 // width: 120.0,
@@ -235,7 +236,7 @@ class ItemsDetailWidget extends StatelessWidget {
                                                     style: TextStyle(
                                                         color:
                                                             HexColor("#586e5c"),
-                                                        fontSize: 30,
+                                                        fontSize: 20,
                                                         fontWeight:
                                                             FontWeight.bold),
                                                   )),
@@ -250,7 +251,41 @@ class ItemsDetailWidget extends StatelessWidget {
                                                               bottomRight: Radius
                                                                   .circular(
                                                                       20.0))),
-                                                ))
+                                                )),
+                                            Align(
+                                                alignment: Alignment.topLeft,
+                                                child: listFood?[index]
+                                                            .priceDiscounted ==
+                                                        null
+                                                    ? Container()
+                                                    : Container(
+                                                        width: 100,
+                                                        height: 50,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                color:
+                                                                    Colors.red,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .only(
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          8.0),
+                                                                )),
+                                                        child: Center(
+                                                          child: Text(
+                                                            listFood?[index]
+                                                                    .priceDiscounted ??
+                                                                "",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w900),
+                                                          ),
+                                                        )))
                                           ],
                                         ))),
                               );

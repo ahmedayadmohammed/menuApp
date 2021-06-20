@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:menu_app/widget/item_detail.dart';
 import 'package:provider/provider.dart';
 
 import 'package:menu_app/extensions/color.dart';
 import 'package:menu_app/models/cat_model.dart';
 import 'package:menu_app/network_modular/http_request.dart';
 import 'package:menu_app/providers/color_provider.dart';
+import 'package:menu_app/widget/item_detail.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 class CategoryListDetail extends StatefulWidget {
   String? title;
   final int? catId;
   final List<Category>? cat;
+  final int? index;
   CategoryListDetail({
     Key? key,
     this.title,
     this.catId,
     this.cat,
+    this.index,
   }) : super(key: key);
 
   @override
@@ -54,6 +57,7 @@ class _CategoryListDetailState extends State<CategoryListDetail> {
           ),
           CategoryListSide(
               category: widget.cat!,
+              index: widget.index,
               didSeletRowAt: (index) => {
                     setState(() {
                       catids = widget.cat?[index].id;
@@ -67,14 +71,26 @@ class _CategoryListDetailState extends State<CategoryListDetail> {
 }
 
 // categories
-class CategoryListSide extends StatelessWidget {
+class CategoryListSide extends StatefulWidget {
   final List<Category> category;
   final Function(int index)? didSeletRowAt;
+  final int? index;
   const CategoryListSide({
     Key? key,
     required this.category,
     this.didSeletRowAt,
+    this.index,
   }) : super(key: key);
+
+  @override
+  _CategoryListSideState createState() => _CategoryListSideState();
+}
+
+class _CategoryListSideState extends State<CategoryListSide> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,14 +101,15 @@ class CategoryListSide extends StatelessWidget {
         child: Container(
           color: HexColor("#9c9a71"),
           child: ListView.builder(
-            itemCount: category.length,
+            itemCount: widget.category.length,
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                   onTap: () {
                     color.changeSelection(index);
-                    didSeletRowAt!(index);
+                    widget.didSeletRowAt!(index);
                   },
                   child: Container(
+                    height: 200,
                     color: color.selectedIndex == index
                         ? HexColor("#586e5c")
                         : Colors.transparent,
@@ -109,7 +126,7 @@ class CategoryListSide extends StatelessWidget {
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(8.0),
                                     child: Image.network(
-                                      "https://menu.trendad.agency/storage/${category[index].image}",
+                                      "https://menu.trendad.agency/${widget.category[index].image}",
                                       fit: BoxFit.fill,
                                     )),
                               ),
@@ -118,10 +135,10 @@ class CategoryListSide extends StatelessWidget {
                                   child: Container(
                                     child: Center(
                                         child: Text(
-                                      "${category[index].nameAr}",
+                                      "${widget.category[index].nameAr}",
                                       style: TextStyle(
                                           color: HexColor("#586e5c"),
-                                          fontSize: 30,
+                                          fontSize: 20,
                                           fontWeight: FontWeight.bold),
                                     )),
                                     decoration: BoxDecoration(
@@ -153,6 +170,17 @@ class ItemsList extends StatefulWidget {
 }
 
 class _ItemsListState extends State<ItemsList> {
+  String getStat(int st) {
+    switch (st) {
+      case 1:
+        return "متوفر";
+      case 0:
+        return "غير متوفر";
+      default:
+        return "متوفر";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -173,29 +201,24 @@ class _ItemsListState extends State<ItemsList> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => ItemsDetailWidget(
-                                  state: snapshot
-                                          .data?.data?.food?[index].status ??
-                                      1,
-                                  description: snapshot.data?.data?.food?[index]
-                                          .descriptionAr ??
-                                      "",
-                                  price:
-                                      snapshot.data?.data?.food?[index].price ??
-                                          "",
-                                  image:
-                                      snapshot.data?.data?.food?[index].image ??
-                                          "",
-                                  discount: snapshot.data?.data?.food?[index]
-                                          .priceDiscounted ??
-                                      "",
-                                  title: snapshot
-                                          .data?.data?.food?[index].nameAr ??
-                                      "",
-                                  nameEn: snapshot
-                                          .data?.data?.food?[index].nameEn ??
-                                      "",
-                                      listFood: snapshot.data?.data?.food
-                                )),
+                                state: snapshot.data?.data?.food?[index].status ??
+                                    1,
+                                description: snapshot.data?.data?.food?[index]
+                                        .descriptionAr ??
+                                    "",
+                                price: snapshot.data?.data?.food?[index].price ??
+                                    "",
+                                image: snapshot.data?.data?.food?[index].image ??
+                                    "",
+                                discount: snapshot.data?.data?.food?[index]
+                                        .priceDiscounted ??
+                                    "",
+                                title:
+                                    snapshot.data?.data?.food?[index].nameAr ??
+                                        "",
+                                nameEn:
+                                    snapshot.data?.data?.food?[index].nameEn ?? "",
+                                listFood: snapshot.data?.data?.food)),
                       );
                     },
                     child: Padding(
@@ -208,7 +231,7 @@ class _ItemsListState extends State<ItemsList> {
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
                                   child: Image.network(
-                                    "https://menu.trendad.agency/storage/${snapshot.data?.data?.food?[index].image ?? ""}",
+                                    "https://menu.trendad.agency/${snapshot.data?.data?.food?[index].image ?? ""}",
                                     fit: BoxFit.cover,
                                   )),
                             ),
@@ -234,32 +257,38 @@ class _ItemsListState extends State<ItemsList> {
                             Align(
                                 alignment: Alignment.bottomCenter,
                                 child: Container(
-                                  height: 70,
+                                  height: 50,
                                   child: Center(
-                                      child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
+                                      child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        snapshot.data?.data?.food?[index]
-                                                .price ??
-                                            "",
-                                        style: TextStyle(
-                                            color: HexColor("#586e5c"),
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w900),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        snapshot.data?.data?.food?[index]
-                                                .nameAr ??
-                                            "",
-                                        style: TextStyle(
-                                            color: HexColor("#586e5c"),
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w900),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Text(
+                                            snapshot.data?.data?.food?[index]
+                                                    .price ??
+                                                "",
+                                            style: TextStyle(
+                                                color: HexColor("#586e5c"),
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w900),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            snapshot.data?.data?.food?[index]
+                                                    .nameAr ??
+                                                "",
+                                            style: TextStyle(
+                                                color: HexColor("#586e5c"),
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w900),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   )),
@@ -268,7 +297,32 @@ class _ItemsListState extends State<ItemsList> {
                                       borderRadius: BorderRadius.only(
                                           bottomLeft: Radius.circular(8.0),
                                           bottomRight: Radius.circular(8.0))),
-                                ))
+                                )),
+                            Align(
+                                alignment: Alignment.topLeft,
+                                child: snapshot.data?.data?.food?[index]
+                                            .priceDiscounted ==
+                                        null
+                                    ? Container()
+                                    : Container(
+                                        width: 100,
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                            color: Colors.red,
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(8.0),
+                                            )),
+                                        child: Center(
+                                          child: Text(
+                                            snapshot.data?.data?.food?[index]
+                                                    .priceDiscounted ??
+                                                "",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w900),
+                                          ),
+                                        )))
                           ],
                         )));
               });

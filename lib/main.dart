@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:menu_app/extensions/color.dart';
 import 'package:menu_app/providers/color_provider.dart';
-import 'package:menu_app/providers/food_provider.dart';
 import 'package:menu_app/widget/item_detail.dart';
 import 'package:menu_app/widget/main_home.dart';
 import 'package:menu_app/widget/rating_widget.dart';
@@ -18,8 +18,6 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider<ColorSelector>(
               create: (context) => ColorSelector()),
-          ChangeNotifierProvider<FoodResponseProvider>(
-              create: (context) => FoodResponseProvider()),
         ],
         child: MaterialApp(
             debugShowCheckedModeBanner: false,

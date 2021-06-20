@@ -47,6 +47,7 @@ class _CategoriesWidgetContainerState extends State<CategoriesWidgetContainer> {
                                     title: widget.category?[index].nameAr,
                                     catId: widget.category?[index].id,
                                     cat: widget.category,
+                                    index: index,
                                   )),
                         );
                       },
@@ -62,7 +63,7 @@ class _CategoriesWidgetContainerState extends State<CategoriesWidgetContainer> {
                                     child: FadeInImage.assetNetwork(
                                         placeholder: 'assets/mainlogo.png',
                                         image:
-                                            "https://menu.trendad.agency/storage/${widget.category?[index].image ?? ""}",
+                                            "https://menu.trendad.agency/${widget.category?[index].image ?? ""}",
                                         fit: BoxFit.fill)),
                               ),
                               Container(
@@ -95,7 +96,7 @@ class _CategoriesWidgetContainerState extends State<CategoriesWidgetContainer> {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: HexColor("#586e5c"),
-                                          fontSize: 30,
+                                          fontSize: 15,
                                           fontWeight: FontWeight.bold),
                                     )),
                                     decoration: BoxDecoration(
