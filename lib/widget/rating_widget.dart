@@ -2,15 +2,16 @@ import 'package:checkbox_grouped/checkbox_grouped.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:menu_app/providers/color_provider.dart';
+import 'package:provider/provider.dart';
+
 import 'package:menu_app/extensions/alerts.dart';
 import 'package:menu_app/extensions/color.dart';
 import 'package:menu_app/extensions/connections.dart';
 import 'package:menu_app/models/error_response.dart';
-
 import 'package:menu_app/models/question_model.dart';
 import 'package:menu_app/network_modular/http_request.dart';
 import 'package:menu_app/providers/rating_provider.dart';
-import 'package:provider/provider.dart';
 
 class RatingControllerWidget extends StatefulWidget {
   const RatingControllerWidget({Key? key}) : super(key: key);
@@ -96,6 +97,8 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final otherNotes =
+        Provider.of<OtherNotesProvderClass>(context, listen: true);
     switch (_source.keys.toList()[0]) {
       case ConnectivityResult.none:
         setState(() {
@@ -408,63 +411,12 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                                   fontWeight: FontWeight.bold)),
                         ),
                       ),
-                      Expanded(child: QuestionListView(controller: controller)),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: Text("الملاحظات الاخرى",
-                              style: TextStyle(
-                                  color: HexColor("#eae6d9"),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                      ),
-                      Container(
-                          margin: EdgeInsets.all(10),
-                          width: MediaQuery.of(context).size.width,
-                          height: 100,
-                          child: Align(
-                            alignment: Alignment.topRight,
-                            child: TextField(
-                              focusNode: myFocusNodes3,
-                              maxLines: 4,
-                              style: TextStyle(
-                                  color: HexColor("#eae6d9"),
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold),
-                              controller: txtController3,
-                              keyboardType: TextInputType.text,
-                              textAlign: TextAlign.right,
-                              decoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                    color: Colors.white,
-                                    width: 4.0,
-                                  )),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.white,
-                                      width: 4.0,
-                                    ),
-                                  ),
-                                  suffixIcon: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(
-                                      Icons.reviews_outlined,
-                                      size: 30,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  hintText: "ملاحظات اخرى"),
-                              onChanged: (text) {
-                                otherNotes = text;
-
-                                print("First text field: $text");
-                              },
-                            ),
-                          )),
+                      Expanded(
+                          child: QuestionListView(
+                        controller: controller,
+                        myFocusNodes3: myFocusNodes3,
+                        txtController3: txtController3,
+                      )),
                       Container(
                         child: Consumer<RatingProvider>(
                           builder: (context, model, child) {
@@ -475,7 +427,7 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                                 if (tableNumber != "" &&
                                     phoneNumber != "" &&
                                     customerName != "" &&
-                                    otherNotes != "") {
+                                    otherNotes.otherNotes != "") {
                                   setState(() {
                                     isSent = true;
                                   });
@@ -485,7 +437,7 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                                         "customer_name": customerName,
                                         "customer_phone": phoneNumber,
                                         "table_number": tableNumber,
-                                        "suggestion": otherNotes,
+                                        "suggestion": otherNotes.otherNotes,
                                         "questions": model.jsonObject,
                                         "visit": _selectedItem,
                                       },
@@ -523,7 +475,8 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                                 }
                               },
                               child: Container(
-                                  width: 200,
+                                  width: MediaQuery.of(context).size.width,
+                                  color: Colors.white12,
                                   height: 50,
                                   child: Center(
                                       child: isSent
@@ -549,10 +502,13 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
 
 class QuestionListView extends StatefulWidget {
   final GroupController controller;
-
+  final FocusNode myFocusNodes3;
+  final TextEditingController txtController3;
   QuestionListView({
     Key? key,
     required this.controller,
+    required this.myFocusNodes3,
+    required this.txtController3,
   }) : super(key: key);
 
   @override
@@ -562,6 +518,8 @@ class QuestionListView extends StatefulWidget {
 class _QuestionListViewState extends State<QuestionListView> {
   @override
   Widget build(BuildContext context) {
+    final otherNotes =
+        Provider.of<OtherNotesProvderClass>(context, listen: true);
     return ChangeNotifierProvider<RatingProvider>(
       create: (context) => RatingProvider(),
       child: FutureBuilder(
@@ -570,76 +528,142 @@ class _QuestionListViewState extends State<QuestionListView> {
         builder:
             (BuildContext context, AsyncSnapshot<QuestionsResponse> snapshot) {
           if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data?.data?.questions?.length ?? 0,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                    margin: EdgeInsets.all(20),
-                    width: MediaQuery.of(context).size.width,
-                    height: 140,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                        color: HexColor("#eae6d9").withAlpha(70)),
-                    child: Consumer<RatingProvider>(
-                      builder: (context, model, child) {
-                        return Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      child: Text(
-                                        snapshot.data?.data?.questions?[index]
-                                                .titleAr ??
-                                            "",
-                                        style: TextStyle(
-                                            color: HexColor("#eae6d9"),
-                                            fontSize: 20),
+            return ListView(children: [
+              ListView.builder(
+                shrinkWrap: true,
+                physics: ScrollPhysics(),
+                itemCount: snapshot.data?.data?.questions?.length ?? 0,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                      margin: EdgeInsets.all(20),
+                      width: MediaQuery.of(context).size.width,
+                      height: 140,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                          color: HexColor("#eae6d9").withAlpha(70)),
+                      child: Consumer<RatingProvider>(
+                        builder: (context, model, child) {
+                          return Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        child: Text(
+                                          snapshot.data?.data?.questions?[index]
+                                                  .titleAr ??
+                                              "",
+                                          style: TextStyle(
+                                              color: HexColor("#eae6d9"),
+                                              fontSize: 20),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SimpleGroupedChips<int>(
-                                    controller: widget.controller,
-                                    values: List.generate(7, (index) => index),
-                                    itemTitle: ["ممتاز", "جيد", "متوسط", "سيء"],
-                                    backgroundColorItem: Colors.black26,
-                                    isScrolling: false,
-                                    onItemSelected: (values) {
-                                      model.ratingMap[index] = {
-                                        'question_id': snapshot.data?.data
-                                                ?.questions?[index].id ??
-                                            0,
-                                        'rating': values
-                                      };
-                                      print(model.ratingMap);
-                                    },
-                                  )
-                                ],
-                              ),
-                              SizedBox(width: 15),
-                              Container(
-                                height: 200,
-                                width: 100,
-                                child: Center(
-                                  child: Icon(
-                                    Icons.rate_review,
-                                    size: 50,
-                                  ),
+                                    SimpleGroupedChips<int>(
+                                      controller: widget.controller,
+                                      values:
+                                          List.generate(7, (index) => index),
+                                      itemTitle: [
+                                        "ممتاز",
+                                        "جيد",
+                                        "متوسط",
+                                        "سيء"
+                                      ],
+                                      backgroundColorItem: Colors.black26,
+                                      isScrolling: false,
+                                      onItemSelected: (values) {
+                                        model.ratingMap[index] = {
+                                          'question_id': snapshot.data?.data
+                                                  ?.questions?[index].id ??
+                                              0,
+                                          'rating': values
+                                        };
+                                        print(model.ratingMap);
+                                      },
+                                    )
+                                  ],
                                 ),
-                                decoration: BoxDecoration(
-                                    color: Colors.white12,
-                                    borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(20.0),
-                                        bottomRight: Radius.circular(20.0))),
-                              ),
-                            ]);
+                                SizedBox(width: 15),
+                                Container(
+                                  height: 200,
+                                  width: 100,
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.rate_review,
+                                      size: 50,
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white12,
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(20.0),
+                                          bottomRight: Radius.circular(20.0))),
+                                ),
+                              ]);
+                        },
+                      ));
+                },
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Text("الملاحظات الاخرى",
+                      style: TextStyle(
+                          color: HexColor("#eae6d9"),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold)),
+                ),
+              ),
+              Container(
+                  margin: EdgeInsets.all(10),
+                  width: MediaQuery.of(context).size.width,
+                  height: 100,
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: TextField(
+                      focusNode: widget.myFocusNodes3,
+                      maxLines: 4,
+                      style: TextStyle(
+                          color: HexColor("#eae6d9"),
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold),
+                      controller: widget.txtController3,
+                      keyboardType: TextInputType.text,
+                      textAlign: TextAlign.right,
+                      decoration: InputDecoration(
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                            color: Colors.white,
+                            width: 4.0,
+                          )),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.white,
+                              width: 4.0,
+                            ),
+                          ),
+                          suffixIcon: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.reviews_outlined,
+                              size: 30,
+                              color: Colors.white,
+                            ),
+                          ),
+                          hintText: "ملاحظات اخرى"),
+                      onChanged: (text) {
+                        otherNotes.setOtherNotes(text);
+
+                        print("First text field: $text");
                       },
-                    ));
-              },
-            );
+                    ),
+                  )),
+            ]);
           } else {
             return Center(
               child: CircularProgressIndicator(),

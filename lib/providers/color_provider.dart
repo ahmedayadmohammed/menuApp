@@ -9,6 +9,15 @@ class ColorSelector with ChangeNotifier {
   }
 }
 
+class OtherNotesProvderClass with ChangeNotifier {
+  String otherNotes = "";
+
+  setOtherNotes(String title) {
+    otherNotes = title;
+    notifyListeners();
+  }
+}
+
 class ChangeInformations with ChangeNotifier {
   String? englishName;
   String? arabicName;

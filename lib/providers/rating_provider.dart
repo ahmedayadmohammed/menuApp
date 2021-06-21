@@ -15,4 +15,7 @@ class RatingProvider with ChangeNotifier {
     jsonObject.clear();
     notifyListeners();
   }
+
+
+  
 }

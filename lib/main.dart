@@ -18,6 +18,8 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider<ColorSelector>(
               create: (context) => ColorSelector()),
+          ChangeNotifierProvider<OtherNotesProvderClass>(
+              create: (context) => OtherNotesProvderClass()),
         ],
         child: MaterialApp(
             debugShowCheckedModeBanner: false,

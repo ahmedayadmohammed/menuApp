@@ -304,15 +304,32 @@ class _ItemsListState extends State<ItemsList> {
                                           SizedBox(
                                             width: 10,
                                           ),
-                                          Text(
-                                            snapshot.data?.data?.food?[index]
-                                                    .nameAr ??
-                                                "",
-                                            style: TextStyle(
-                                                color: HexColor("#586e5c"),
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w900),
-                                          ),
+                                          snapshot.data?.data?.food?[index]
+                                                      .priceDiscounted ==
+                                                  null
+                                              ? Text(
+                                                  snapshot
+                                                          .data
+                                                          ?.data
+                                                          ?.food?[index]
+                                                          .nameAr ??
+                                                      "",
+                                                  style: TextStyle(
+                                                      color:
+                                                          HexColor("#586e5c"),
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.w900),
+                                                )
+                                              : Text(
+                                                  "السعر بعد الخصم",
+                                                  style: TextStyle(
+                                                      color:
+                                                          HexColor("#586e5c"),
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.w900),
+                                                ),
                                         ],
                                       ),
                                     ],
@@ -339,9 +356,7 @@ class _ItemsListState extends State<ItemsList> {
                                             )),
                                         child: Center(
                                           child: Text(
-                                            snapshot.data?.data?.food?[index]
-                                                    .priceDiscounted ??
-                                                "",
+                                            "خصم",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 15,

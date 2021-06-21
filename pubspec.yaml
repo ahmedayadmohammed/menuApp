@@ -37,11 +37,15 @@ dependencies:
   connectivity: ^3.0.6
   pull_to_refresh: ^2.0.0
   scroll_to_index: ^2.0.0  
-  
+  flutter_launcher_icons: "^0.8.0"
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
