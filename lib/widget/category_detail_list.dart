@@ -270,7 +270,7 @@ class _ItemsListState extends State<ItemsList> {
                             Align(
                                 alignment: Alignment.bottomCenter,
                                 child: Container(
-                                  height: 80,
+                                  height: 90,
                                   child: Center(
                                       child: Column(
                                     crossAxisAlignment:
@@ -305,7 +305,7 @@ class _ItemsListState extends State<ItemsList> {
                                                   style: TextStyle(
                                                       color:
                                                           HexColor("#586e5c"),
-                                                      fontSize: 20,
+                                                      fontSize: 15,
                                                       fontWeight:
                                                           FontWeight.w900),
                                                 )
@@ -316,7 +316,7 @@ class _ItemsListState extends State<ItemsList> {
                                                       style: TextStyle(
                                                           color: HexColor(
                                                               "#586e5c"),
-                                                          fontSize: 20,
+                                                          fontSize: 15,
                                                           fontWeight:
                                                               FontWeight.w900),
                                                     ),
@@ -331,7 +331,7 @@ class _ItemsListState extends State<ItemsList> {
                                                               TextDecoration
                                                                   .lineThrough,
                                                           color: Colors.red,
-                                                          fontSize: 20,
+                                                          fontSize: 15,
                                                           fontWeight:
                                                               FontWeight.w900),
                                                     )

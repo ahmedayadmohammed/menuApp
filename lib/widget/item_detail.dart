@@ -225,20 +225,85 @@ class ItemsDetailWidget extends StatelessWidget {
                                                 alignment:
                                                     Alignment.bottomCenter,
                                                 child: Container(
-                                                  height: 50,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
+                                                  height: 90,
                                                   child: Center(
-                                                      child: Text(
-                                                    "${listFood?[index].nameAr ?? "No name"}",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        color:
-                                                            HexColor("#586e5c"),
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.bold),
+                                                      child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Center(
+                                                        child: Text(
+                                                          listFood?[index]
+                                                                  .nameAr ??
+                                                              "",
+                                                          style: TextStyle(
+                                                              color: HexColor(
+                                                                  "#586e5c"),
+                                                              fontSize: 20,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w900),
+                                                        ),
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          listFood?[index]
+                                                                      .priceDiscounted ==
+                                                                  null
+                                                              ? Text(
+                                                                  listFood?[index]
+                                                                          .price ??
+                                                                      "",
+                                                                  style: TextStyle(
+                                                                      color: HexColor(
+                                                                          "#586e5c"),
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w900),
+                                                                )
+                                                              : Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      "${listFood?[index].priceDiscounted ?? ""} IQD",
+                                                                      style: TextStyle(
+                                                                          color: HexColor(
+                                                                              "#586e5c"),
+                                                                          fontSize:
+                                                                              15,
+                                                                          fontWeight:
+                                                                              FontWeight.w900),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width: 10,
+                                                                      child: Text(
+                                                                          " - "),
+                                                                    ),
+                                                                    Text(
+                                                                      "${listFood?[index].price ?? ""} IQD",
+                                                                      style: TextStyle(
+                                                                          decoration: TextDecoration
+                                                                              .lineThrough,
+                                                                          color: Colors
+                                                                              .red,
+                                                                          fontSize:
+                                                                              15,
+                                                                          fontWeight:
+                                                                              FontWeight.w900),
+                                                                    )
+                                                                  ],
+                                                                )
+                                                        ],
+                                                      ),
+                                                    ],
                                                   )),
                                                   decoration: BoxDecoration(
                                                       color:
@@ -247,45 +312,11 @@ class ItemsDetailWidget extends StatelessWidget {
                                                           BorderRadius.only(
                                                               bottomLeft: Radius
                                                                   .circular(
-                                                                      20.0),
+                                                                      8.0),
                                                               bottomRight: Radius
                                                                   .circular(
-                                                                      20.0))),
-                                                )),
-                                            Align(
-                                                alignment: Alignment.topLeft,
-                                                child: listFood?[index]
-                                                            .priceDiscounted ==
-                                                        null
-                                                    ? Container()
-                                                    : Container(
-                                                        width: 100,
-                                                        height: 50,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                color:
-                                                                    Colors.red,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .only(
-                                                                  topLeft: Radius
-                                                                      .circular(
-                                                                          8.0),
-                                                                )),
-                                                        child: Center(
-                                                          child: Text(
-                                                            listFood?[index]
-                                                                    .priceDiscounted ??
-                                                                "",
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 15,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w900),
-                                                          ),
-                                                        )))
+                                                                      8.0))),
+                                                ))
                                           ],
                                         ))),
                               );
