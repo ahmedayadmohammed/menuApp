@@ -193,17 +193,6 @@ class ItemsList extends StatefulWidget {
 }
 
 class _ItemsListState extends State<ItemsList> {
-  String getStat(int st) {
-    switch (st) {
-      case 1:
-        return "متوفر";
-      case 0:
-        return "غير متوفر";
-      default:
-        return "متوفر";
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -252,7 +241,7 @@ class _ItemsListState extends State<ItemsList> {
                           // fit: exp,
                           children: [
                             Container(
-                              height: MediaQuery.of(context).size.height / 3.5,
+                              height: MediaQuery.of(context).size.height,
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
                                   child: Image.network(
@@ -262,8 +251,7 @@ class _ItemsListState extends State<ItemsList> {
                             ),
                             Container(
                                 // width: 120.0,
-                                height:
-                                    MediaQuery.of(context).size.height / 3.5,
+                                height: MediaQuery.of(context).size.height,
                                 margin: EdgeInsets.all(0.0),
                                 alignment: Alignment.bottomCenter,
                                 decoration: BoxDecoration(
@@ -282,28 +270,28 @@ class _ItemsListState extends State<ItemsList> {
                             Align(
                                 alignment: Alignment.bottomCenter,
                                 child: Container(
-                                  height: 50,
+                                  height: 80,
                                   child: Center(
                                       child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
+                                      Center(
+                                        child: Text(
+                                          snapshot.data?.data?.food?[index]
+                                                  .nameAr ??
+                                              "",
+                                          style: TextStyle(
+                                              color: HexColor("#586e5c"),
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w900),
+                                        ),
+                                      ),
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
+                                            MainAxisAlignment.center,
                                         children: [
-                                          Text(
-                                            snapshot.data?.data?.food?[index]
-                                                    .price ??
-                                                "",
-                                            style: TextStyle(
-                                                color: HexColor("#586e5c"),
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w900),
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
                                           snapshot.data?.data?.food?[index]
                                                       .priceDiscounted ==
                                                   null
@@ -312,7 +300,7 @@ class _ItemsListState extends State<ItemsList> {
                                                           .data
                                                           ?.data
                                                           ?.food?[index]
-                                                          .nameAr ??
+                                                          .price ??
                                                       "",
                                                   style: TextStyle(
                                                       color:
@@ -321,15 +309,34 @@ class _ItemsListState extends State<ItemsList> {
                                                       fontWeight:
                                                           FontWeight.w900),
                                                 )
-                                              : Text(
-                                                  "السعر بعد الخصم",
-                                                  style: TextStyle(
-                                                      color:
-                                                          HexColor("#586e5c"),
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.w900),
-                                                ),
+                                              : Row(
+                                                  children: [
+                                                    Text(
+                                                      "${snapshot.data?.data?.food?[index].priceDiscounted ?? ""} IQD",
+                                                      style: TextStyle(
+                                                          color: HexColor(
+                                                              "#586e5c"),
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.w900),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                      child: Text(" - "),
+                                                    ),
+                                                    Text(
+                                                      "${snapshot.data?.data?.food?[index].price ?? ""} IQD",
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .lineThrough,
+                                                          color: Colors.red,
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.w900),
+                                                    )
+                                                  ],
+                                                )
                                         ],
                                       ),
                                     ],
@@ -340,29 +347,6 @@ class _ItemsListState extends State<ItemsList> {
                                           bottomLeft: Radius.circular(8.0),
                                           bottomRight: Radius.circular(8.0))),
                                 )),
-                            Align(
-                                alignment: Alignment.topLeft,
-                                child: snapshot.data?.data?.food?[index]
-                                            .priceDiscounted ==
-                                        null
-                                    ? Container()
-                                    : Container(
-                                        width: 100,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                            color: Colors.red,
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(8.0),
-                                            )),
-                                        child: Center(
-                                          child: Text(
-                                            "خصم",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w900),
-                                          ),
-                                        )))
                           ],
                         )));
               });
