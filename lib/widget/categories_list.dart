@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:menu_app/extensions/color.dart';
@@ -59,12 +60,22 @@ class _CategoriesWidgetContainerState extends State<CategoriesWidgetContainer> {
                               Container(
                                 height: MediaQuery.of(context).size.height / 4,
                                 child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    child: FadeInImage.assetNetwork(
-                                        placeholder: 'assets/mainlogo.png',
-                                        image:
-                                            "https://menu.trendad.agency/${widget.category?[index].image ?? ""}",
-                                        fit: BoxFit.fill)),
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        "http://192.168.1.1:8080/${widget.category?[index].image ?? ""}",
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) =>
+                                        Image.asset('assets/mainlogo.png'),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                  ),
+                                  // FadeInImage.assetNetwork(
+                                  //     placeholder: 'assets/mainlogo.png',
+                                  //     image:
+                                  //         "http://192.168.1.1:8080/${widget.category?[index].image ?? ""}",
+                                  //     fit: BoxFit.cover)
+                                ),
                               ),
                               Container(
                                   // width: 120.0,

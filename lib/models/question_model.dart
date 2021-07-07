@@ -25,13 +25,13 @@ class QuestionsResponse {
   factory QuestionsResponse.fromJson(Map<String, dynamic> json) =>
       QuestionsResponse(
         success: json["success"] == null ? null : json["success"],
-        message: json["message"],
+        message: json["message"] == null ? "" : json["message"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
         "success": success == null ? null : success,
-        "message": message,
+        "message": message == null ? "" : message,
         "data": data == null ? null : data?.toJson(),
       };
 }
@@ -70,13 +70,13 @@ class Question {
 
   factory Question.fromJson(Map<String, dynamic> json) => Question(
         id: json["id"] == null ? null : json["id"],
-        titleAr: json["title_ar"] == null ? null : json["title_ar"],
-        titleEn: json["title_en"] == null ? null : json["title_en"],
+        titleAr: json["title_ar"] == null ? "" : json["title_ar"],
+        titleEn: json["title_en"] == null ? "" : json["title_en"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
-        "title_ar": titleAr == null ? null : titleAr,
-        "title_en": titleEn == null ? null : titleEn,
+        "title_ar": titleAr == null ? "null" : titleAr,
+        "title_en": titleEn == null ? "null" : titleEn,
       };
 }

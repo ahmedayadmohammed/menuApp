@@ -16,7 +16,7 @@ class FoodResponseProvider with ChangeNotifier {
     notifyListeners();
     try {
       Foodresponse foods = await _foodRepository!
-          .getAllDataofHome("https://menu.trendad.agency/api/category");
+          .getAllDataofHome("http://192.168.1.1:8080/category");
       print(Foodresponse);
       _food = ApiResponse.completed(foods);
       notifyListeners();

@@ -32,9 +32,9 @@ class MyApp extends StatelessWidget {
             },
             theme: ThemeData(
                 fontFamily: 'DINArabic',
-                backgroundColor: HexColor("#586e5c"),
+                backgroundColor: HexColor("#229fb5"),
                 brightness: Brightness.light,
-                canvasColor: HexColor("#586e5c")),
+                canvasColor: HexColor("#229fb5")),
             home: HomeMainController()));
   }
 }

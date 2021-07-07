@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:menu_app/extensions/color.dart';
@@ -41,9 +42,9 @@ class ItemsDetailWidget extends StatelessWidget {
                 child: CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar(
-                  expandedHeight: 300,
+                  expandedHeight: 400,
                   stretch: true,
-                  foregroundColor: HexColor("#586e5c"),
+                  foregroundColor: HexColor("#229fb5"),
                   stretchTriggerOffset: 300,
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
@@ -57,8 +58,8 @@ class ItemsDetailWidget extends StatelessWidget {
                       children: [
                         Image.network(
                           change.isSelectionStarted
-                              ? "https://menu.trendad.agency/${change.image ?? ""}"
-                              : "https://menu.trendad.agency/${image ?? ""}",
+                              ? "http://192.168.1.1:8080/${change.image ?? ""}"
+                              : "http://192.168.1.1:8080/${image ?? ""}",
                           fit: BoxFit.cover,
                         ),
                         const DecoratedBox(
@@ -95,7 +96,7 @@ class ItemsDetailWidget extends StatelessWidget {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: HexColor("#eae6d9"),
-                                fontSize: 40,
+                                fontSize: 20,
                               ),
                             ),
                             Text(
@@ -105,7 +106,7 @@ class ItemsDetailWidget extends StatelessWidget {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: HexColor("#eae6d9"),
-                                fontSize: 40,
+                                fontSize: 20,
                               ),
                             ),
                           ],
@@ -113,13 +114,14 @@ class ItemsDetailWidget extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: Container(
-                            height: 150,
+                            height: 200,
                             width: MediaQuery.of(context).size.width,
                             child: Center(
                               child: Text(
                                 change.isSelectionStarted
                                     ? change.description ?? ""
                                     : description ?? "",
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: HexColor("#eae6d9"),
@@ -189,12 +191,18 @@ class ItemsDetailWidget extends StatelessWidget {
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           20.0),
-                                                  child: FadeInImage.assetNetwork(
-                                                      placeholder:
-                                                          'assets/mainlogo.png',
-                                                      image:
-                                                          "https://menu.trendad.agency/${listFood?[index].image ?? ""}",
-                                                      fit: BoxFit.cover)),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl:
+                                                        "http://192.168.1.1:8080/${listFood?[index].image ?? ""}",
+                                                    fit: BoxFit.cover,
+                                                    placeholder: (context,
+                                                            url) =>
+                                                        Image.asset(
+                                                            'assets/mainlogo.png'),
+                                                    errorWidget:
+                                                        (context, url, error) =>
+                                                            Icon(Icons.error),
+                                                  )),
                                             ),
                                             Container(
                                                 // width: 120.0,
@@ -273,7 +281,7 @@ class ItemsDetailWidget extends StatelessWidget {
                                                               : Row(
                                                                   children: [
                                                                     Text(
-                                                                      "${listFood?[index].priceDiscounted ?? ""} IQD",
+                                                                      "${listFood?[index].priceDiscounted == null ? "" : listFood?[index].priceDiscounted} IQD",
                                                                       style: TextStyle(
                                                                           color: HexColor(
                                                                               "#586e5c"),

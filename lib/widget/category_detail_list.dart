@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -41,11 +42,11 @@ class _CategoryListDetailState extends State<CategoryListDetail> {
           title: Text(
             widget.title ?? "",
             style: TextStyle(
-                color: HexColor("#9c9a71"),
+                color: HexColor("#eae6d9"),
                 fontSize: 35,
                 fontWeight: FontWeight.bold),
           ),
-          backgroundColor: HexColor("#586e5c"),
+          backgroundColor: HexColor("#229fb5"),
           // title: Text("Menu home"),
         ),
         body: Row(children: [
@@ -110,7 +111,7 @@ class _CategoryListSideState extends State<CategoryListSide> {
     return Expanded(
         flex: 30,
         child: Container(
-          color: HexColor("#9c9a71"),
+          color: HexColor("#229fb5"),
           child: ListView.builder(
             scrollDirection: Axis.vertical,
             controller: controller,
@@ -128,7 +129,7 @@ class _CategoryListSideState extends State<CategoryListSide> {
                       child: Container(
                         height: 200,
                         color: color.selectedIndex == index
-                            ? HexColor("#586e5c")
+                            ? HexColor("#eae6d9").withAlpha(70)
                             : Colors.transparent,
                         margin: EdgeInsets.only(top: 10, bottom: 10),
                         child: Center(
@@ -141,13 +142,19 @@ class _CategoryListSideState extends State<CategoryListSide> {
                                     height:
                                         MediaQuery.of(context).size.height / 7,
                                     width:
-                                        MediaQuery.of(context).size.width / 5,
+                                        MediaQuery.of(context).size.width / 4,
                                     child: ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(8.0),
-                                        child: Image.network(
-                                          "https://menu.trendad.agency/${widget.category[index].image}",
-                                          fit: BoxFit.fill,
+                                        child: CachedNetworkImage(
+                                          imageUrl:
+                                              "http://192.168.1.1:8080/${widget.category[index].image}",
+                                          fit: BoxFit.cover,
+                                          placeholder: (context, url) =>
+                                              Image.asset(
+                                                  'assets/mainlogo.png'),
+                                          errorWidget: (context, url, error) =>
+                                              Icon(Icons.error),
                                         )),
                                   ),
                                   Positioned(
@@ -170,7 +177,7 @@ class _CategoryListSideState extends State<CategoryListSide> {
                                                     Radius.circular(8.0))),
                                         width:
                                             MediaQuery.of(context).size.width /
-                                                5,
+                                                4,
                                         height: 50,
                                       ))
                                 ],
@@ -197,7 +204,7 @@ class _ItemsListState extends State<ItemsList> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: HttpClient.instance.getAllDataofHome(
-          "https://menu.trendad.agency/api/category/${widget.id}"),
+          "http://192.168.1.1:8080/api/category/${widget.id}"),
       builder: (BuildContext context, AsyncSnapshot<Foodresponse> snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.hasData &&
@@ -245,7 +252,7 @@ class _ItemsListState extends State<ItemsList> {
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
                                   child: Image.network(
-                                    "https://menu.trendad.agency/${snapshot.data?.data?.food?[index].image ?? ""}",
+                                    "http://192.168.1.1:8080/${snapshot.data?.data?.food?[index].image ?? ""}",
                                     fit: BoxFit.cover,
                                   )),
                             ),

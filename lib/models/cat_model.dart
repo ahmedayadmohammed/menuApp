@@ -23,7 +23,7 @@ class Foodresponse {
 
   factory Foodresponse.fromJson(Map<String, dynamic> json) => Foodresponse(
         success: json["success"] == null ? null : json["success"],
-        message: json["message"],
+        message: json["message"] == null ? "" : json["message"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
       );
 
@@ -90,9 +90,9 @@ class Category {
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
         id: json["id"] == null ? null : json["id"],
-        nameAr: json["name_ar"] == null ? null : json["name_ar"],
-        nameEn: json["name_en"] == null ? null : json["name_en"],
-        image: json["image"] == null ? null : json["image"],
+        nameAr: json["name_ar"] == null ? "null" : json["name_ar"],
+        nameEn: json["name_en"] == null ? "null" : json["name_en"],
+        image: json["image"] == null ? "null" : json["image"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -116,7 +116,7 @@ class Food {
     required this.image,
   });
 
-  int id;
+  int? id;
   String? nameAr;
   dynamic nameEn;
   String? descriptionAr;
@@ -126,15 +126,14 @@ class Food {
   int? status;
   String? image;
 
-
-
   factory Food.fromJson(Map<String, dynamic> json) => Food(
-        id: json["id"] == null ? null : json["id"],
+        id: json["id"] == null ? "" : json["id"],
         nameAr: json["name_ar"] == null ? null : json["name_ar"],
         nameEn: json["name_en"],
         descriptionAr:
             json["description_ar"] == null ? null : json["description_ar"],
-        descriptionEn: json["description_en"],
+        descriptionEn:
+            json["description_en"] == null ? null : json["description_en"],
         price: json["price"] == null ? null : json["price"],
         priceDiscounted:
             json["price_discounted"] == null ? null : json["price_discounted"],
@@ -147,7 +146,7 @@ class Food {
         "name_ar": nameAr == null ? null : nameAr,
         "name_en": nameEn,
         "description_ar": descriptionAr == null ? null : descriptionAr,
-        "description_en": descriptionEn,
+        "description_en": descriptionEn == null ? null : descriptionEn,
         "price": price == null ? null : price,
         "price_discounted": priceDiscounted == null ? null : priceDiscounted,
         "status": status == null ? null : status,
