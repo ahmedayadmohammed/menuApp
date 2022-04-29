@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+String appVersionKey = '';
 enum WhyFarther { harder, smarter, selfStarter, tradingCharter }
 
 void showAlertDialog(BuildContext context) {
@@ -128,6 +129,55 @@ void displayDialog(BuildContext context) {
           child: new Text("Okay"),
           onPressed: () => {Navigator.pop(context)},
         )
+      ],
+    ),
+  );
+}
+
+Future<bool?> showLoginAlert(
+    {required BuildContext context,
+    required String title,
+    required String content,
+    String? cancelActionText,
+    required String defaultActionText,
+    required Function logutFunction()}) async {
+  if (!Platform.isIOS) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: <Widget>[
+          if (cancelActionText != null)
+            TextButton(
+              child: Text(cancelActionText),
+              onPressed: () => Navigator.of(context).pop(false),
+            ),
+          TextButton(
+            child: Text(defaultActionText),
+            onPressed: () => {logutFunction()},
+          ),
+        ],
+      ),
+    );
+  }
+
+  // todo : showDialog for ios
+  return showCupertinoDialog(
+    context: context,
+    builder: (context) => CupertinoAlertDialog(
+      title: Text(title),
+      content: Text(content),
+      actions: <Widget>[
+        if (cancelActionText != null)
+          CupertinoDialogAction(
+            child: Text(cancelActionText),
+            onPressed: () => Navigator.of(context).pop(false),
+          ),
+        CupertinoDialogAction(
+          child: Text(defaultActionText),
+          onPressed: () => {logutFunction()},
+        ),
       ],
     ),
   );

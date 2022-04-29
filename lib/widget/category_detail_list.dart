@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:menu_app/extensions/alerts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:menu_app/extensions/color.dart';
@@ -14,13 +15,10 @@ class CategoryListDetail extends StatefulWidget {
   final int? catId;
   final List<Category>? cat;
   final int? index;
-  CategoryListDetail({
-    Key? key,
-    this.title,
-    this.catId,
-    this.cat,
-    this.index,
-  }) : super(key: key);
+  final String? storageUrl;
+  CategoryListDetail(
+      {Key? key, this.title, this.catId, this.cat, this.index, this.storageUrl})
+      : super(key: key);
 
   @override
   _CategoryListDetailState createState() => _CategoryListDetailState();
@@ -28,10 +26,12 @@ class CategoryListDetail extends StatefulWidget {
 
 class _CategoryListDetailState extends State<CategoryListDetail> {
   int? catids;
+  String? storage;
   @override
   void initState() {
     super.initState();
     catids = widget.catId;
+    storage = widget.storageUrl;
   }
 
   @override
@@ -46,7 +46,7 @@ class _CategoryListDetailState extends State<CategoryListDetail> {
                 fontSize: 35,
                 fontWeight: FontWeight.bold),
           ),
-          backgroundColor: HexColor("#229fb5"),
+          backgroundColor: HexColor("#DDAF55"),
           // title: Text("Menu home"),
         ),
         body: Row(children: [
@@ -54,11 +54,13 @@ class _CategoryListDetailState extends State<CategoryListDetail> {
             flex: 70,
             child: ItemsList(
               id: catids,
+              storageUrl: widget.storageUrl,
             ),
           ),
           CategoryListSide(
               category: widget.cat!,
               index: widget.index,
+              storageUrl: widget.storageUrl,
               didSeletRowAt: (index) => {
                     setState(() {
                       catids = widget.cat?[index].id;
@@ -76,12 +78,14 @@ class CategoryListSide extends StatefulWidget {
   final List<Category> category;
   final Function(int index)? didSeletRowAt;
   final int? index;
-  const CategoryListSide({
-    Key? key,
-    required this.category,
-    this.didSeletRowAt,
-    this.index,
-  }) : super(key: key);
+  final String? storageUrl;
+  const CategoryListSide(
+      {Key? key,
+      required this.category,
+      this.didSeletRowAt,
+      this.index,
+      this.storageUrl})
+      : super(key: key);
 
   @override
   _CategoryListSideState createState() => _CategoryListSideState();
@@ -111,7 +115,7 @@ class _CategoryListSideState extends State<CategoryListSide> {
     return Expanded(
         flex: 30,
         child: Container(
-          color: HexColor("#229fb5"),
+          color: HexColor("#DDAF55"),
           child: ListView.builder(
             scrollDirection: Axis.vertical,
             controller: controller,
@@ -148,8 +152,8 @@ class _CategoryListSideState extends State<CategoryListSide> {
                                             BorderRadius.circular(8.0),
                                         child: CachedNetworkImage(
                                           imageUrl:
-                                              "http://192.168.1.1:8080/${widget.category[index].image}",
-                                          fit: BoxFit.cover,
+                                              "${widget.storageUrl}${widget.category[index].image}",
+                                          fit: BoxFit.fill,
                                           placeholder: (context, url) =>
                                               Image.asset(
                                                   'assets/mainlogo.png'),
@@ -193,7 +197,8 @@ class _CategoryListSideState extends State<CategoryListSide> {
 // Category item list
 class ItemsList extends StatefulWidget {
   final int? id;
-  ItemsList({Key? key, this.id}) : super(key: key);
+  final String? storageUrl;
+  ItemsList({Key? key, this.id, this.storageUrl}) : super(key: key);
 
   @override
   _ItemsListState createState() => _ItemsListState();
@@ -203,8 +208,8 @@ class _ItemsListState extends State<ItemsList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: HttpClient.instance.getAllDataofHome(
-          "http://192.168.1.1:8080/api/category/${widget.id}"),
+      future: HttpClient.instance
+          .getAllDataofHome("http://192.168.1.1:8080/api/category/${widget.id}"),
       builder: (BuildContext context, AsyncSnapshot<Foodresponse> snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.hasData &&
@@ -222,6 +227,7 @@ class _ItemsListState extends State<ItemsList> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => ItemsDetailWidget(
+                                storageUrl: widget.storageUrl,
                                 state: snapshot.data?.data?.food?[index].status ??
                                     1,
                                 description: snapshot.data?.data?.food?[index]
@@ -249,10 +255,11 @@ class _ItemsListState extends State<ItemsList> {
                           children: [
                             Container(
                               height: MediaQuery.of(context).size.height,
+                              width:MediaQuery.of(context).size.width ,
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
                                   child: Image.network(
-                                    "http://192.168.1.1:8080/${snapshot.data?.data?.food?[index].image ?? ""}",
+                                    "${widget.storageUrl}${snapshot.data?.data?.food?[index].image ?? ""}",
                                     fit: BoxFit.cover,
                                   )),
                             ),

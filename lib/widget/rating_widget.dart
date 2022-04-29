@@ -11,7 +11,6 @@ import 'package:menu_app/models/error_response.dart';
 import 'package:menu_app/models/question_model.dart';
 import 'package:menu_app/network_modular/api_response.dart';
 import 'package:menu_app/network_modular/http_request.dart';
-import 'package:menu_app/providers/color_provider.dart';
 import 'package:menu_app/providers/rating_provider.dart';
 
 class RatingControllerWidget extends StatefulWidget {
@@ -105,7 +104,7 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
       child: Scaffold(
           resizeToAvoidBottomInset: showKeyBoard,
           appBar: AppBar(
-            backgroundColor: HexColor("#229fb5"),
+            backgroundColor: HexColor("#DDAF55"),
             title: Text("التقييم"),
           ),
           body: SafeArea(

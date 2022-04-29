@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:menu_app/extensions/alerts.dart';
 import 'package:menu_app/extensions/color.dart';
 import 'package:menu_app/providers/color_provider.dart';
 import 'package:menu_app/widget/item_detail.dart';
@@ -7,7 +8,7 @@ import 'package:menu_app/widget/main_home.dart';
 import 'package:menu_app/widget/rating_widget.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
   runApp(MyApp());
 }
 
@@ -32,9 +33,9 @@ class MyApp extends StatelessWidget {
             },
             theme: ThemeData(
                 fontFamily: 'DINArabic',
-                backgroundColor: HexColor("#229fb5"),
+                backgroundColor: HexColor('#B08C42'),
                 brightness: Brightness.light,
-                canvasColor: HexColor("#229fb5")),
+                canvasColor: HexColor('#B08C42')),
             home: HomeMainController()));
   }
 }

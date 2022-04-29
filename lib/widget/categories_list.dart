@@ -10,9 +10,11 @@ import 'package:provider/provider.dart';
 class CategoriesWidgetContainer extends StatefulWidget {
   final List<Category>? category;
   final List<Food>? foods;
+  final String? storageUrl;
   CategoriesWidgetContainer({
     Key? key,
     required this.category,
+    required this.storageUrl,
     this.foods,
   }) : super(key: key);
 
@@ -49,6 +51,7 @@ class _CategoriesWidgetContainerState extends State<CategoriesWidgetContainer> {
                                     catId: widget.category?[index].id,
                                     cat: widget.category,
                                     index: index,
+                                    storageUrl: widget.storageUrl,
                                   )),
                         );
                       },
@@ -59,22 +62,18 @@ class _CategoriesWidgetContainerState extends State<CategoriesWidgetContainer> {
                             children: [
                               Container(
                                 height: MediaQuery.of(context).size.height / 4,
+                                width: MediaQuery.of(context).size.width,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20.0),
                                   child: CachedNetworkImage(
                                     imageUrl:
-                                        "http://192.168.1.1:8080/${widget.category?[index].image ?? ""}",
+                                        "${widget.storageUrl}${widget.category?[index].image}",
                                     fit: BoxFit.cover,
                                     placeholder: (context, url) =>
                                         Image.asset('assets/mainlogo.png'),
                                     errorWidget: (context, url, error) =>
                                         Icon(Icons.error),
                                   ),
-                                  // FadeInImage.assetNetwork(
-                                  //     placeholder: 'assets/mainlogo.png',
-                                  //     image:
-                                  //         "http://192.168.1.1:8080/${widget.category?[index].image ?? ""}",
-                                  //     fit: BoxFit.cover)
                                 ),
                               ),
                               Container(

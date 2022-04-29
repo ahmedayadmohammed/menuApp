@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
+import 'package:menu_app/extensions/alerts.dart';
 import 'package:menu_app/extensions/color.dart';
 import 'package:menu_app/models/cat_model.dart';
 import 'package:menu_app/providers/color_provider.dart';
@@ -16,18 +16,20 @@ class ItemsDetailWidget extends StatelessWidget {
   final String? nameAr;
   final String? nameEn;
   final List<Food>? listFood;
-  const ItemsDetailWidget({
-    Key? key,
-    this.title,
-    this.image,
-    this.description,
-    this.state,
-    this.discount,
-    this.price,
-    this.nameAr,
-    this.nameEn,
-    this.listFood,
-  }) : super(key: key);
+  final String? storageUrl;
+  const ItemsDetailWidget(
+      {Key? key,
+      this.title,
+      this.image,
+      this.description,
+      this.state,
+      this.discount,
+      this.price,
+      this.nameAr,
+      this.nameEn,
+      this.listFood,
+      this.storageUrl})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,26 +44,24 @@ class ItemsDetailWidget extends StatelessWidget {
                 child: CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar(
-                  expandedHeight: 400,
+                  expandedHeight: 750,
                   stretch: true,
-                  foregroundColor: HexColor("#229fb5"),
+                  foregroundColor: HexColor("#DDAF55"),
                   stretchTriggerOffset: 300,
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
                     stretchModes: const [
                       StretchMode.zoomBackground,
                       StretchMode.fadeTitle,
-                      StretchMode.blurBackground,
                     ],
                     background: Stack(
                       fit: StackFit.expand,
                       children: [
                         Image.network(
-                          change.isSelectionStarted
-                              ? "http://192.168.1.1:8080/${change.image ?? ""}"
-                              : "http://192.168.1.1:8080/${image ?? ""}",
-                          fit: BoxFit.cover,
-                        ),
+                            change.isSelectionStarted
+                                ? "$storageUrl${change.image ?? ""}"
+                                : "$storageUrl${image ?? ""}",
+                            fit: BoxFit.cover),
                         const DecoratedBox(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -193,7 +193,7 @@ class ItemsDetailWidget extends StatelessWidget {
                                                           20.0),
                                                   child: CachedNetworkImage(
                                                     imageUrl:
-                                                        "http://192.168.1.1:8080/${listFood?[index].image ?? ""}",
+                                                        "$storageUrl${listFood?[index].image ?? ""}",
                                                     fit: BoxFit.cover,
                                                     placeholder: (context,
                                                             url) =>

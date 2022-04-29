@@ -1,12 +1,17 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:menu_app/extensions/alerts.dart';
 import 'package:menu_app/extensions/color.dart';
+import 'package:menu_app/extensions/key.dart';
 import 'package:menu_app/models/cat_model.dart';
 import 'package:menu_app/network_modular/http_request.dart';
+import 'package:menu_app/widget/LoginviewController.dart';
+import 'package:menu_app/widget/VersionViewController.dart';
 import 'package:menu_app/widget/categories_list.dart';
 import 'package:menu_app/widget/rating_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeMainController extends StatefulWidget {
   const HomeMainController({Key? key}) : super(key: key);
@@ -18,7 +23,7 @@ class HomeMainController extends StatefulWidget {
 class _HomeMainControllerState extends State<HomeMainController> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
-
+  String token = "";
   void _onRefresh() async {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000));
@@ -42,16 +47,25 @@ class _HomeMainControllerState extends State<HomeMainController> {
         .getAllDataofHome("http://192.168.1.1:8080/api/category");
   }
 
+  Future getToken() {
+    return ApplicationKeys.instance.getStringValue("token").then((value) => {
+          setState(() {
+            token = value;
+          })
+        });
+  }
+
   @override
   void initState() {
     super.initState();
+    getToken();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: HexColor("#229fb5"),
+          backgroundColor: HexColor("#DDAF55"),
           title: Text(
             "بيت حلب",
             style: TextStyle(
@@ -65,7 +79,7 @@ class _HomeMainControllerState extends State<HomeMainController> {
               width: MediaQuery.of(context).size.width /
                   2, // 75% of screen will be occupied
               child: Container(
-                color: HexColor("#229fb5"),
+                color: HexColor('#B08C42'),
                 child: Column(
                   children: [
                     Expanded(
@@ -95,7 +109,7 @@ class _HomeMainControllerState extends State<HomeMainController> {
                               "التقييم",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: HexColor("#eae6d9"),
+                                  color: Colors.black,
                                   fontSize: 20),
                             ),
                             onTap: () {
@@ -106,6 +120,69 @@ class _HomeMainControllerState extends State<HomeMainController> {
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         RatingControllerWidget()),
+                              );
+                            },
+                          ),
+                          ListTile(
+                            focusColor: Colors.white12,
+                            trailing: Icon(Icons.arrow_forward_ios_outlined),
+                            subtitle: Text("تسجيل الدخول",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 15)),
+                            title: Text(
+                              "تسجيل",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: 20),
+                            ),
+                            onTap: () async {
+                              Navigator.pop(context);
+                              await getToken();
+                              if (token.isNotEmpty) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginViewController(
+                                            isToken: false,
+                                          )),
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginViewController(
+                                            isToken: true,
+                                          )),
+                                );
+                              }
+                            },
+                          ),
+                          ListTile(
+                            focusColor: Colors.white12,
+                            trailing: Icon(Icons.arrow_forward_ios_outlined),
+                            subtitle: Text("الاصدار",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: HexColor("#eae6d9"),
+                                    fontSize: 15)),
+                            title: Text(
+                              "تحديث الاصدار",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: 20),
+                            ),
+                            onTap: () {
+                              Navigator.pop(context);
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        CheckVersionViewController()),
                               );
                             },
                           ),
@@ -143,6 +220,9 @@ class _HomeMainControllerState extends State<HomeMainController> {
           builder:
               (BuildContext context, AsyncSnapshot<Foodresponse> snapshot) {
             if (snapshot.hasData) {
+              ApplicationKeys.instance
+                  .setStringValue("version", snapshot.data!.data!.appVersion!);
+
               return Material(
                   child: SmartRefresher(
                 enablePullDown: true,
@@ -195,7 +275,7 @@ class _HomeMainControllerState extends State<HomeMainController> {
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(20.0)),
                                               child: Image.network(
-                                                "http://192.168.1.1:8080/${snapshot.data?.data?.sliders?[itemIndex].image}",
+                                                "${snapshot.data?.data?.storageUrl}${snapshot.data?.data?.sliders?[itemIndex].image}",
                                                 fit: BoxFit.cover,
                                               )))),
                                   onTap: () => {}),
@@ -223,6 +303,7 @@ class _HomeMainControllerState extends State<HomeMainController> {
                     CategoriesWidgetContainer(
                       foods: snapshot.data?.data?.food,
                       category: snapshot.data?.data?.categories,
+                      storageUrl: snapshot.data?.data?.storageUrl,
                     )
                   ],
                 ),
