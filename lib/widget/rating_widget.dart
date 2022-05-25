@@ -33,8 +33,7 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
   TextEditingController txtController2 = TextEditingController();
   TextEditingController txtController3 = TextEditingController();
   TextEditingController txtTableController = TextEditingController();
-  Map _source = {ConnectivityResult.none: false};
-  MyConnectivity _connectivity = MyConnectivity.instance;
+
 
   bool isSent = false;
   bool isConnectected = true;
@@ -398,7 +397,7 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                       print('here');
                       print(otherNotesString);
                       HttpClient.instance.postRating(
-                          "http://192.168.1.1:8080/api/submit-form",
+                          "http://192.168.123.1:9000/api/submit-form",
                           {
                             "customer_name": customerName,
                             "customer_phone": phoneNumber,
@@ -556,7 +555,7 @@ class _QuestionListViewState extends State<QuestionListView> {
   @override
   void initState() {
     HttpClient.instance
-        .getAllQuestions("http://192.168.1.1:8080/api/form")
+        .getAllQuestions("http://192.168.123.1:9000/api/form")
         .then((value) => questions.add(value));
     print(questions);
     super.initState();

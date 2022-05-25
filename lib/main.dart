@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:menu_app/extensions/alerts.dart';
 import 'package:menu_app/extensions/color.dart';
 import 'package:menu_app/providers/color_provider.dart';
 import 'package:menu_app/widget/item_detail.dart';

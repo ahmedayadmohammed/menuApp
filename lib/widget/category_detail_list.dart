@@ -208,8 +208,8 @@ class _ItemsListState extends State<ItemsList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: HttpClient.instance
-          .getAllDataofHome("http://192.168.1.1:8080/api/category/${widget.id}"),
+      future: HttpClient.instance.getAllDataofHome(
+          "http://192.168.123.1:9000/api/category/${widget.id}"),
       builder: (BuildContext context, AsyncSnapshot<Foodresponse> snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.hasData &&
@@ -255,7 +255,7 @@ class _ItemsListState extends State<ItemsList> {
                           children: [
                             Container(
                               height: MediaQuery.of(context).size.height,
-                              width:MediaQuery.of(context).size.width ,
+                              width: MediaQuery.of(context).size.width,
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
                                   child: Image.network(

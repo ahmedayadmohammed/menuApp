@@ -1,7 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:menu_app/extensions/alerts.dart';
 import 'package:menu_app/extensions/color.dart';
 import 'package:menu_app/extensions/key.dart';
 import 'package:menu_app/models/cat_model.dart';
@@ -11,7 +9,6 @@ import 'package:menu_app/widget/VersionViewController.dart';
 import 'package:menu_app/widget/categories_list.dart';
 import 'package:menu_app/widget/rating_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeMainController extends StatefulWidget {
   const HomeMainController({Key? key}) : super(key: key);
@@ -44,7 +41,7 @@ class _HomeMainControllerState extends State<HomeMainController> {
 
   fetchItems() {
     HttpClient.instance
-        .getAllDataofHome("http://192.168.1.1:8080/api/category");
+        .getAllDataofHome("http://192.168.123.1:9000/api/category");
   }
 
   Future getToken() {
@@ -216,7 +213,7 @@ class _HomeMainControllerState extends State<HomeMainController> {
         ),
         body: FutureBuilder(
           future: HttpClient.instance
-              .getAllDataofHome("http://192.168.1.1:8080/api/category"),
+              .getAllDataofHome("http://192.168.123.1:9000/api/category"),
           builder:
               (BuildContext context, AsyncSnapshot<Foodresponse> snapshot) {
             if (snapshot.hasData) {
