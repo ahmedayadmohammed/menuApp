@@ -2,6 +2,7 @@ import 'package:checkbox_grouped/checkbox_grouped.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:menu_app/Languages/Localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'package:menu_app/extensions/alerts.dart';
@@ -34,7 +35,6 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
   TextEditingController txtController3 = TextEditingController();
   TextEditingController txtTableController = TextEditingController();
 
-
   bool isSent = false;
   bool isConnectected = true;
 
@@ -45,14 +45,14 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
   String? customerName = "";
   String? tableNumber = "";
   String? otherNotes = "";
-  String _selectedItem = 'يوميا';
+  String _selectedItem = 'Daily';
   bool? showKeyBoard = false;
   List _options = [
-    "أول زيارة لي",
-    'يوميا',
-    'أسبوعيا',
-    'شهريا',
-    'بشكل غير منتظم'
+    "It's my first time ",
+    "Daily",
+    "Weekly",
+    "Monthly",
+    "Irregular"
   ];
 
   Color getColor(Set<MaterialState> states) {
@@ -111,22 +111,23 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                  height: 400,
+                  height: 450,
                   width: MediaQuery.of(context).size.width,
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Column(children: [
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 30, vertical: 20),
-                            child: Text("معلومات الزبون ",
-                                style: TextStyle(
-                                    color: HexColor("#eae6d9"),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold)),
-                          ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 30, vertical: 20),
+                              child: Text("Customer Info".getlocal(context),
+                                  style: TextStyle(
+                                      color: HexColor("#eae6d9"),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                          ],
                         ),
                         Container(
                           margin: EdgeInsets.symmetric(
@@ -135,7 +136,6 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                           width: MediaQuery.of(context).size.width,
                           child: Center(
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Align(
                                     alignment: Alignment.topRight,
@@ -149,7 +149,6 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                                             fontWeight: FontWeight.bold),
                                         controller: txtTableController,
                                         keyboardType: TextInputType.phone,
-                                        textAlign: TextAlign.right,
                                         decoration: InputDecoration(
                                             fillColor: Colors.white,
                                             border: OutlineInputBorder(
@@ -167,16 +166,17 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                                               Icons.table_view,
                                               color: Colors.white,
                                             ),
-                                            labelText: "رقم الطاولة",
+                                            labelText: "Table Number"
+                                                .getlocal(context),
                                             labelStyle: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: myFocusNodes4.hasFocus
                                                     ? Colors.white
                                                     : Colors.white38),
-                                            hintText: "رقم الطاولة"),
+                                            hintText: "Table Number"
+                                                .getlocal(context)),
                                         onChanged: (text) {
                                           tableNumber = text;
-                                          print("First text field: $text");
                                         },
                                       ),
                                     )),
@@ -186,92 +186,86 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                                 Container(
                                   height: 350,
                                   child: Column(children: [
-                                    Align(
-                                        alignment: Alignment.centerRight,
-                                        child: Container(
-                                          margin: EdgeInsets.all(9),
-                                          width: 300,
-                                          child: TextField(
-                                            style: TextStyle(
-                                                color: HexColor("#eae6d9"),
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold),
-                                            controller: txtController2,
-                                            textAlign: TextAlign.right,
-                                            decoration: InputDecoration(
-                                                fillColor: HexColor("#eae6d9"),
-                                                border: OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                  color: Colors.white,
-                                                  width: 4.0,
-                                                )),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
+                                    Container(
+                                        margin: EdgeInsets.all(9),
+                                        width: 300,
+                                        child: TextField(
+                                          style: TextStyle(
+                                              color: HexColor("#eae6d9"),
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                          controller: txtController2,
+                                          textAlign: TextAlign.right,
+                                          decoration: InputDecoration(
+                                              fillColor: HexColor("#eae6d9"),
+                                              border: OutlineInputBorder(
                                                   borderSide: BorderSide(
-                                                    color: HexColor("#eae6d9"),
-                                                    width: 4.0,
-                                                  ),
+                                                color: Colors.white,
+                                                width: 4.0,
+                                              )),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: HexColor("#eae6d9"),
+                                                  width: 4.0,
                                                 ),
-                                                suffixIcon: Icon(
-                                                  Icons.person,
-                                                  color: Colors.white,
-                                                ),
-                                                labelText: "أسم الزبون",
-                                                labelStyle: TextStyle(
-                                                    color:
-                                                        myFocusNodes2.hasFocus
-                                                            ? Colors.white
-                                                            : Colors.white38),
-                                                hintText: "أسم الزبون"),
-                                            onChanged: (text) {
-                                              customerName = text;
-                                              print("First text field: $text");
-                                            },
-                                          ),
+                                              ),
+                                              suffixIcon: Icon(
+                                                Icons.person,
+                                                color: Colors.white,
+                                              ),
+                                              labelText: "Customer Name"
+                                                  .getlocal(context),
+                                              labelStyle: TextStyle(
+                                                  color: myFocusNodes2.hasFocus
+                                                      ? Colors.white
+                                                      : Colors.white38),
+                                              hintText: "Customer Name"
+                                                  .getlocal(context)),
+                                          onChanged: (text) {
+                                            customerName = text;
+                                            print("First text field: $text");
+                                          },
                                         )),
-                                    Align(
-                                        alignment: Alignment.centerRight,
-                                        child: Container(
-                                          margin: EdgeInsets.all(9),
-                                          width: 300,
-                                          child: TextField(
-                                            style: TextStyle(
-                                                color: HexColor("#eae6d9"),
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold),
-                                            controller: txtController,
-                                            keyboardType: TextInputType.phone,
-                                            textAlign: TextAlign.right,
-                                            decoration: InputDecoration(
-                                                fillColor: Colors.white,
-                                                border: OutlineInputBorder(
-                                                    borderSide: BorderSide(
+                                    Container(
+                                        margin: EdgeInsets.all(9),
+                                        width: 300,
+                                        child: TextField(
+                                          style: TextStyle(
+                                              color: HexColor("#eae6d9"),
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                          controller: txtController,
+                                          keyboardType: TextInputType.phone,
+                                          textAlign: TextAlign.right,
+                                          decoration: InputDecoration(
+                                              fillColor: Colors.white,
+                                              border: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                color: Colors.white,
+                                                width: 4.0,
+                                              )),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
                                                   color: Colors.white,
                                                   width: 4.0,
-                                                )),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: Colors.white,
-                                                    width: 4.0,
-                                                  ),
                                                 ),
-                                                suffixIcon: Icon(
-                                                  Icons.phone,
-                                                  color: Colors.white,
-                                                ),
-                                                labelText: "رقم الهاتف",
-                                                labelStyle: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: myFocusNode.hasFocus
-                                                        ? Colors.white
-                                                        : Colors.white38),
-                                                hintText: "رقم الهاتف"),
-                                            onChanged: (text) {
-                                              phoneNumber = text;
-                                              print("First text field: $text");
-                                            },
-                                          ),
+                                              ),
+                                              suffixIcon: Icon(
+                                                Icons.phone,
+                                                color: Colors.white,
+                                              ),
+                                              labelText: "Phone Number"
+                                                  .getlocal(context),
+                                              labelStyle: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: myFocusNode.hasFocus
+                                                      ? Colors.white
+                                                      : Colors.white38),
+                                              hintText: "Phone Number"
+                                                  .getlocal(context)),
+                                          onChanged: (text) {
+                                            phoneNumber = text;
+                                          },
                                         )),
                                   ]),
                                 )
@@ -283,10 +277,19 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                           height: 30,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                                "How many times you visit the resturant"
+                                    .getlocal(context),
+                                style: TextStyle(
+                                    color: HexColor("#eae6d9"),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold)),
                             Padding(
-                                padding: const EdgeInsets.only(right: 30),
+                                padding: const EdgeInsets.all(8),
                                 child: PopupMenuButton(
                                   child: Container(
                                       decoration: BoxDecoration(
@@ -334,42 +337,36 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                                         .toList();
                                   },
                                   onSelected: (value) {
-                                    print(value);
                                     setState(() {
-                                      _selectedItem = value.toString();
+                                      _selectedItem =
+                                          value.toString().getlocal(context);
                                     });
                                   },
                                 )),
-                            Text("كم مرة تقوم بزيارة المطعم ؟",
-                                style: TextStyle(
-                                    color: HexColor("#eae6d9"),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold))
                           ],
                         ),
                       ]))),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Text("أعطنا رأيك ؟",
-                      style: TextStyle(
-                          color: HexColor("#eae6d9"),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold)),
-                ),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Text("Give us your feedback".getlocal(context),
+                        style: TextStyle(
+                            color: HexColor("#eae6d9"),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold)),
+                  ),
+                ],
               ),
               Expanded(
                   child: ListView(children: [
                 QuestionListView(
                   controller: controller,
-                  rating: (int id, int value) {
-                    if (!hitMeRating.containsKey(id)) {
-                      hitMeRating.addAll({id: value});
-                      print(hitMeRating);
-                    } else {
-                      hitMeRating.update(id, (old_value) => value);
-                    }
+                  rating: (object) {
+                    object.forEach((key, value) {
+                      hitMeRating.addAll({key: value});
+                    });
+                    // print(hitMeRating);
                   },
                 ),
                 QuestionText(
@@ -389,15 +386,18 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                       setState(() {
                         isSent = true;
                       });
-                      print(hitMeRating);
+                      questions.clear();
                       hitMeRating.forEach((key, value) {
-                        questions.add({"question_id": key, "rating": value});
+                        questions.add({
+                          "question_id": key,
+                          "rating": value["values"],
+                          "note": value["note"]
+                        });
                       });
 
-                      print('here');
-                      print(otherNotesString);
+                      print(questions);
                       HttpClient.instance.postRating(
-                          "http://192.168.123.1:9000/api/submit-form",
+                          "https://menu.baythalab.com/api/submit-form",
                           {
                             "customer_name": customerName,
                             "customer_phone": phoneNumber,
@@ -478,16 +478,17 @@ class QuestionText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Align(
-        alignment: Alignment.centerRight,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Text("الملاحظات الاخرى",
-              style: TextStyle(
-                  color: HexColor("#eae6d9"),
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold)),
-        ),
+      Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Text("Other Notes".getlocal(context),
+                style: TextStyle(
+                    color: HexColor("#eae6d9"),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold)),
+          ),
+        ],
       ),
       Container(
           margin: EdgeInsets.all(10),
@@ -525,10 +526,9 @@ class QuestionText extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  hintText: "ملاحظات اخرى"),
+                  hintText: "Other Notes".getlocal(context)),
               onChanged: (text) {
                 otherNotes(text);
-                print("First text field: $text");
               },
             ),
           )),
@@ -539,7 +539,7 @@ class QuestionText extends StatelessWidget {
 class QuestionListView extends StatefulWidget {
   final GroupController controller;
 
-  final Function(int id, int value) rating;
+  final Function(Map<int, Map<dynamic, dynamic>>) rating;
   QuestionListView({
     Key? key,
     required this.controller,
@@ -552,6 +552,9 @@ class QuestionListView extends StatefulWidget {
 
 class _QuestionListViewState extends State<QuestionListView> {
   List<QuestionsResponse> questions = [];
+
+  Map<int, Map<dynamic, dynamic>> listOfMap = {};
+  List<TextEditingController> textList = [];
   @override
   void initState() {
     HttpClient.instance
@@ -573,62 +576,87 @@ class _QuestionListViewState extends State<QuestionListView> {
               physics: ScrollPhysics(),
               itemCount: data?.length ?? 0,
               itemBuilder: (BuildContext context, int index) {
+                for (int i = 0; i < data!.length; i++) {
+                  textList.add(TextEditingController());
+                }
+
                 return Container(
                     margin: EdgeInsets.all(20),
                     width: MediaQuery.of(context).size.width,
-                    height: 140,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         color: HexColor("#eae6d9").withAlpha(70)),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  child: Text(
-                                    data?[index].titleAr ?? "",
-                                    style: TextStyle(
-                                        color: HexColor("#eae6d9"),
-                                        fontSize: 20),
-                                  ),
-                                ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(children: [
+                        SizedBox(width: 15),
+                        Icon(
+                          Icons.rate_review,
+                          color: HexColor("#eae6d9"),
+                          size: 50,
+                        ),
+                        SizedBox(width: 50),
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                data[index].titleAr ?? "",
+                                style: TextStyle(
+                                    color: HexColor("#eae6d9"), fontSize: 20),
                               ),
-                              SimpleGroupedChips<int>(
+                            ),
+                            SimpleGroupedChips<int>(
                                 controller: widget.controller,
                                 values: List.generate(7, (index) => index),
-                                itemTitle: ["جيد", "متوسط", "دون الوسط"],
+                                itemTitle: [
+                                  "Bad".getlocal(context),
+                                  "Mediocre".getlocal(context),
+                                  "Medium".getlocal(context),
+                                  "Good".getlocal(context),
+                                  "Very Good".getlocal(context)
+                                ],
                                 backgroundColorItem: Colors.black26,
                                 textColor: HexColor("#eae6d9"),
                                 isScrolling: false,
                                 onItemSelected: (values) {
-                                  widget.rating(
-                                      data?[index].id ?? 0, values + 1);
-                                },
-                              )
-                            ],
-                          ),
-                          SizedBox(width: 15),
-                          Container(
-                            height: 200,
-                            width: 100,
-                            child: Center(
-                              child: Icon(
-                                Icons.rate_review,
-                                color: HexColor("#eae6d9"),
-                                size: 50,
-                              ),
-                            ),
-                            decoration: BoxDecoration(
-                                color: Colors.white12,
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(20.0),
-                                    bottomRight: Radius.circular(20.0))),
-                          ),
-                        ]));
+                                  var value = {
+                                    "values": values + 1,
+                                    "id": data[index].id,
+                                    "note": ""
+                                  };
+                                  listOfMap[data[index].id!] = value;
+
+                                  widget.rating(listOfMap);
+                                  setState(() {});
+                                }),
+                            listOfMap.containsKey(data[index].id!) &&
+                                    listOfMap[data[index].id!]?["values"] <= 3
+                                ? Builder(builder: (context) {
+                                    return SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2,
+                                      child: inputMethods(
+                                          textList[index],
+                                          TextInputType.text,
+                                          Icons.lock,
+                                          "Reason".getlocal(context),
+                                          false,
+                                          context, onChanged: (text) {
+                                        listOfMap[data[index].id!]?["note"] =
+                                            text;
+                                        widget.rating(listOfMap);
+                                        setState(() {});
+                                      }),
+                                    );
+                                  })
+                                : Builder(builder: (context) {
+                                    return SizedBox();
+                                  })
+                          ],
+                        ),
+                      ]),
+                    ));
               },
             );
           } else {
@@ -636,4 +664,49 @@ class _QuestionListViewState extends State<QuestionListView> {
           }
         }));
   }
+}
+
+Widget inputMethods(TextEditingController controller, TextInputType? inputType,
+    IconData icon, String hint, bool obscureText, BuildContext context,
+    {bool? enabel, Function(String title)? onChanged, Color? backgroundColor}) {
+  return Container(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 20,
+            ),
+            Expanded(
+              child: TextField(
+                onChanged: (value) {
+                  if (onChanged != null) {
+                    onChanged(value);
+                  }
+                },
+                obscureText: obscureText,
+                keyboardType: inputType,
+                controller: controller,
+                enabled: enabel,
+                decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(vertical: 10.7),
+                    border: InputBorder.none,
+                    hintText: hint,
+                    hintStyle: TextStyle(color: Colors.grey[300], fontSize: 16),
+                    labelStyle: const TextStyle(fontSize: 14)),
+              ),
+            )
+          ],
+        ),
+      ),
+      height: 65,
+      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+          color: backgroundColor ?? Colors.white.withOpacity(0.15),
+          // border: Border.all(
+          //   color: HexColor("#A3C7D6"),
+          //   width: 1,
+          // ),
+          borderRadius: const BorderRadius.all(Radius.circular(50.0))));
 }

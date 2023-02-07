@@ -209,7 +209,7 @@ class _ItemsListState extends State<ItemsList> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: HttpClient.instance.getAllDataofHome(
-          "http://192.168.123.1:9000/api/category/${widget.id}"),
+          "https://menu.baythalab.com/api/category/${widget.id}"),
       builder: (BuildContext context, AsyncSnapshot<Foodresponse> snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.hasData &&
@@ -365,7 +365,10 @@ class _ItemsListState extends State<ItemsList> {
                         )));
               });
         } else {
-          return Center(child: CircularProgressIndicator());
+          return Center(
+              child: CircularProgressIndicator(
+            color: Colors.white,
+          ));
         }
       },
     );
