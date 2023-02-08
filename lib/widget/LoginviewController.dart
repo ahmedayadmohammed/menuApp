@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:menu_app/Languages/Localizations.dart';
 
 import 'package:menu_app/extensions/alerts.dart';
 import 'package:menu_app/extensions/color.dart';
@@ -39,7 +40,7 @@ class _LoginViewControllerState extends State<LoginViewController> {
           centerTitle: true,
           backgroundColor: HexColor('#B08C42'),
           title: Text(
-            "تسجيل الحساب",
+            "Device Login".getlocal(context),
             style: TextStyle(
                 color: Colors.black, fontSize: 18, fontWeight: FontWeight.w600),
           ),
@@ -67,14 +68,14 @@ class _LoginViewControllerState extends State<LoginViewController> {
                         username,
                         TextInputType.name,
                         Icons.email_rounded,
-                        "البريد الالكتروني",
+                        "Email ,Username ,Phone".getlocal(context),
                         false,
                         context),
                     SizedBox(
                       height: 13,
                     ),
                     inputMethods(password, TextInputType.name, Icons.person,
-                        "الرمز السري", false, context),
+                        "Password".getlocal(context), false, context),
                     SizedBox(height: 40),
                     Material(
                         child: new InkWell(
@@ -83,7 +84,7 @@ class _LoginViewControllerState extends State<LoginViewController> {
                           child: Center(
                             child: isSuccesss
                                 ? CircularProgressIndicator()
-                                : Text("تسجيل",
+                                : Text("Login".getlocal(context),
                                     style: TextStyle(
                                         color: Colors.black, fontSize: 18)),
                           ),
@@ -114,7 +115,6 @@ class _LoginViewControllerState extends State<LoginViewController> {
                                         }),
                                         ApplicationKeys.instance.setStringValue(
                                             "token", data!.token!),
-                                        print("Success login"),
                                         Navigator.pop(context)
                                       }
                                     else
@@ -124,19 +124,22 @@ class _LoginViewControllerState extends State<LoginViewController> {
                                         }),
                                         showAlertDialogChecking(
                                             context: context,
-                                            title: "خطأ",
+                                            title: "Error".getlocal(context),
                                             content:
-                                                "المعلومات غير صحيحة يرجى المحاولة مرة اخرى",
-                                            defaultActionText: "تم"),
+                                                "Error in Information , please try again"
+                                                    .getlocal(context),
+                                            defaultActionText:
+                                                "Done".getlocal(context)),
                                       }
                                   });
                         } else {
                           showAlertDialogChecking(
                               context: context,
-                              title: "الحقول مطلوبة",
+                              title: "Field required".getlocal(context),
                               content:
-                                  "يرجى ملئ الحقول المطلوبة ومن ثم أكمال عملية التسجيل",
-                              defaultActionText: "okay");
+                                  "Please Fill The Required Fields To Complete Your Login"
+                                      .getlocal(context),
+                              defaultActionText: "Done".getlocal(context));
                         }
                       },
                     ))
@@ -170,7 +173,7 @@ class _LoginViewControllerState extends State<LoginViewController> {
                             child: Center(
                               child: isSuccesss
                                   ? CircularProgressIndicator()
-                                  : Text("تسجيل الخروج",
+                                  : Text("Logout".getlocal(context),
                                       style: TextStyle(
                                           color: Colors.black, fontSize: 18)),
                             ),

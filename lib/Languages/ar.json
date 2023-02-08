@@ -1,9 +1,48 @@
 {
-    "Home" : "الرئيسية"
-   
-
-
-
-
-
+    "Device Login" : "تسجيل الحساب",
+    "Email ,Username ,Phone" :"البريد الالكتروني ,أسم المستخدم ,رقم الهاتف",
+    "Password":"الرمز السري",
+    "Login":"تسجيل",
+    "Error":"خطأ",
+    "Error in Information , please try again":"خطأ في المعلومات , يرجى المحاولة مرة اخرى",
+    "Done":"تم",
+    "Field required":"الحقول مطلوبة ",
+    "Please Fill The Required Fields To Complete Your Login":"الرجاء قم بمليء البيانات المطلوبة لأتمام عملية تسجيل الدخول الخاصة بك",
+    "Logout":"تسجيل الخروج",
+    "No name": "لا يوجد اسم",
+    "Give rating":"اعط تقييمك",
+    "Rate":"قم بالتقييم",
+    "User Login":"تسجيل المستخدم",
+    "App Version":"نسخة التطبيق",
+    "Update Version": "تحديث نسخة التطبيق",
+    "Language":"اللغة",
+    "Change Language":"تغيير اللغة",
+    "Powered and developed by trend (for marketing and software solutions) LTD": "تم البرمجة من قبل مجموعة ترند (للستويق الالكتروني والحلول البرمجية) المحدودة",
+    "All copyrights are Reserved by trend 2023": "جميع الحقوق محفوظة من قبل مجموعة ترند ٢٠٢٣",
+    "Menu": "قائمة الطعام",
+    "Error happened":"حدث خطأ",
+    "Refresh": "اعادة المحاولة",
+    "It's my first time":"انها المرة الاولى لي",
+    "Daily":"يوميا",
+    "Weekly": "اسبوعيا",
+    "Monthly":"شهريا",
+    "Irregular":"بصورة غير منتظمة",
+    "Rating":"التقييم",
+    "Customer Info":"معلومات الزبون",
+    "Table Number":"رقم الطاولة",
+    "Customer Name": "أسم المستخدم",
+    "Phone Number":"رقم الهاتف",
+    "How many times you visit the resturant":"كم عدد المرات التي تقوم بها بزيارة المطعم",
+    "Give us your feedback":"اعطنا تقييمك ",
+    "Field Required": "الحقول مطلوبة ",
+    "Send Rating":"ارسال التقييم",
+    "Other Notes":"ملاحظات اخرى",
+    "Bad":"سيء",
+    "Mediocre": "دون المتوسط",
+    "Medium":"متوسط",
+    "Good":"جيد",
+    "Very Good":"جيد جدا",
+    "Reason": "السبب",
+    "New Version Avialable Press To Download":"يوجد تحديث نظام جديدة يرجى الضغط للتحميل ",
+    "No Update Found In This Time":"لا يوجد تحديثات في الوقت الحالي"
 }

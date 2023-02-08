@@ -1,5 +1,4 @@
 import 'package:checkbox_grouped/checkbox_grouped.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:menu_app/Languages/Localizations.dart';
@@ -7,7 +6,6 @@ import 'package:provider/provider.dart';
 
 import 'package:menu_app/extensions/alerts.dart';
 import 'package:menu_app/extensions/color.dart';
-import 'package:menu_app/extensions/connections.dart';
 import 'package:menu_app/models/error_response.dart';
 import 'package:menu_app/models/question_model.dart';
 import 'package:menu_app/network_modular/api_response.dart';
@@ -47,8 +45,8 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
   String? otherNotes = "";
   String _selectedItem = 'Daily';
   bool? showKeyBoard = false;
-  List _options = [
-    "It's my first time ",
+  List<String> _options = [
+    "It's my first time",
     "Daily",
     "Weekly",
     "Monthly",
@@ -80,6 +78,7 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
   @override
   void initState() {
     super.initState();
+    setState(() {});
     myFocusNodes3 = FocusNode()..addListener(listener);
   }
 
@@ -104,7 +103,7 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
           resizeToAvoidBottomInset: showKeyBoard,
           appBar: AppBar(
             backgroundColor: HexColor("#DDAF55"),
-            title: Text("التقييم"),
+            title: Text("Rating".getlocal(context)),
           ),
           body: SafeArea(
               child: Column(
@@ -223,7 +222,6 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                                                   .getlocal(context)),
                                           onChanged: (text) {
                                             customerName = text;
-                                            print("First text field: $text");
                                           },
                                         )),
                                     Container(
@@ -325,7 +323,7 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                                     return _options
                                         .map((day) => PopupMenuItem(
                                               child: Text(
-                                                day,
+                                                day.getlocal(context),
                                                 style: TextStyle(
                                                     color: Colors.grey[600],
                                                     fontSize: 20,
@@ -377,7 +375,7 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                   },
                 )
               ])),
-              Container(
+              SafeArea(
                 child: InkWell(
                   onTap: () {
                     if (tableNumber != "" &&
@@ -417,7 +415,8 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                                         context: context,
                                         title: "",
                                         content: data?.data ?? "",
-                                        defaultActionText: "تم"),
+                                        defaultActionText:
+                                            "Done".getlocal(context)),
                                   }
                                 else
                                   {
@@ -428,7 +427,8 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                                         context: context,
                                         title: "",
                                         content: data?.data ?? "",
-                                        defaultActionText: "تم"),
+                                        defaultActionText:
+                                            "Done".getlocal(context)),
                                   }
                               });
                     } else {
@@ -438,19 +438,21 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                       showAlertDialogChecking(
                           context: context,
                           title: "",
-                          content: "بعض الحقول مطلوبة ",
-                          defaultActionText: "تم");
+                          content: "Field Required".getlocal(context),
+                          defaultActionText: "Done".getlocal(context));
                     }
                   },
                   child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      color: HexColor("#eae6d9"),
+                      decoration: BoxDecoration(
+                          color: HexColor("#eae6d9"),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      width: MediaQuery.of(context).size.width / 1.2,
                       height: 50,
                       child: Center(
                           child: isSent
                               ? CircularProgressIndicator()
                               : Text(
-                                  "أرسال البيانات",
+                                  "Send Rating".getlocal(context),
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 20,
@@ -597,6 +599,7 @@ class _QuestionListViewState extends State<QuestionListView> {
                         ),
                         SizedBox(width: 50),
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),

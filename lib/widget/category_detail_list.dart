@@ -222,7 +222,6 @@ class _ItemsListState extends State<ItemsList> {
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                     onTap: () {
-                      print("item list");
                       Navigator.push(
                         context,
                         MaterialPageRoute(

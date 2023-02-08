@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:menu_app/Languages/Localizations.dart';
 import 'package:menu_app/extensions/color.dart';
 import 'package:menu_app/extensions/key.dart';
-import 'package:menu_app/models/cat_model.dart';
 import 'package:menu_app/network_modular/api_response.dart';
-import 'package:menu_app/network_modular/http_request.dart';
 import 'package:menu_app/providers/home_provider.dart';
 import 'package:menu_app/widget/LoginviewController.dart';
 import 'package:menu_app/widget/VersionViewController.dart';
@@ -53,15 +51,14 @@ class _HomeMainControllerState extends State<HomeMainController> {
         });
   }
 
-   void _changeLanguage(String language) async {
+  void _changeLanguage(String language) async {
     Locale _locale = await setLocale(language);
     MyApp.setLocale(context, _locale);
   }
 
-
   @override
   Widget build(BuildContext context) {
-        final providerMe = Provider.of<ChangeHomeLanguage>(context, listen: true);
+    final providerMe = Provider.of<ChangeHomeLanguage>(context, listen: true);
 
     return Scaffold(
         appBar: AppBar(
@@ -249,7 +246,7 @@ class _HomeMainControllerState extends State<HomeMainController> {
                                   color: HexColor("#eae6d9"),
                                   fontSize: 9)),
                           Text(
-                              "All copyrights are Reserved by trend 2021"
+                              "All copyrights are Reserved by trend 2023"
                                   .getlocal(context),
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
@@ -345,7 +342,7 @@ class _HomeMainControllerState extends State<HomeMainController> {
                       SliverToBoxAdapter(
                         child: Center(
                           child: Text(
-                            "قائمة الطعام".getlocal(context),
+                            "Menu".getlocal(context),
                             style: TextStyle(
                                 color: HexColor("#eae6d9"), fontSize: 30),
                           ),

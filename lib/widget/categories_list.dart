@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:menu_app/Languages/Localizations.dart';
 
 import 'package:menu_app/extensions/color.dart';
 import 'package:menu_app/models/cat_model.dart';
@@ -102,7 +103,7 @@ class _CategoriesWidgetContainerState extends State<CategoriesWidgetContainer> {
                                     height: 50,
                                     child: Center(
                                         child: Text(
-                                      "${widget.category?[index].nameAr ?? "No name"}",
+                                      "${widget.category?[index].nameAr ?? "No name".getlocal(context)}",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: HexColor("#586e5c"),

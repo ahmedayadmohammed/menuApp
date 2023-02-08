@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:menu_app/Languages/Localizations.dart';
 import 'package:menu_app/extensions/alerts.dart';
 import 'package:menu_app/extensions/color.dart';
 import 'package:menu_app/extensions/key.dart';
@@ -43,7 +44,7 @@ class _CheckVersionViewControllerState
           centerTitle: true,
           backgroundColor: HexColor('#B08C42'),
           title: Text(
-            "تسجيل الحساب",
+            "Login".getlocal(context),
             style: TextStyle(
                 color: Colors.black, fontSize: 18, fontWeight: FontWeight.w600),
           ),
@@ -83,7 +84,7 @@ class _CheckVersionViewControllerState
                                 },
                                 child: Container(
                                     child: Center(
-                                      child: Text("يوجد تحديث اضغط للتحميل",
+                                      child: Text("New Version Avialable Press To Download".getlocal(context),
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 18)),
@@ -96,7 +97,7 @@ class _CheckVersionViewControllerState
                                         borderRadius:
                                             BorderRadius.circular(50))),
                               )
-                            : Text("لا يوجد تحديثات في الوقت الحالي",
+                            : Text("No Update Found In This Time".getlocal(context),
                                 style: TextStyle(
                                     color: Colors.white54, fontSize: 24))
                       ],
