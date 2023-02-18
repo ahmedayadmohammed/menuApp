@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:menu_app/Languages/Localizations.dart';
 import 'package:provider/provider.dart';
-
 import 'package:menu_app/extensions/alerts.dart';
 import 'package:menu_app/extensions/color.dart';
 import 'package:menu_app/models/error_response.dart';
@@ -44,6 +43,10 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
   String? tableNumber = "";
   String? otherNotes = "";
   String _selectedItem = 'Daily';
+  String? _checkValue = "";
+  String? _visitValue = "Social Media";
+
+  String? reach = "";
   bool? showKeyBoard = false;
   List<String> _options = [
     "It's my first time",
@@ -51,6 +54,13 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
     "Weekly",
     "Monthly",
     "Irregular"
+  ];
+
+  List<String> _reach = [
+    "Social Media",
+    "Friends",
+    "Celebrity",
+    "Coincidentally",
   ];
 
   Color getColor(Set<MaterialState> states) {
@@ -302,7 +312,7 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                                               MainAxisAlignment.end,
                                           children: [
                                             Text(
-                                              _selectedItem,
+                                              _selectedItem.getlocal(context),
                                               style: TextStyle(
                                                   color: HexColor("#eae6d9"),
                                                   fontSize: 20,
@@ -338,12 +348,81 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                                     setState(() {
                                       _selectedItem =
                                           value.toString().getlocal(context);
+                                      _checkValue = value.toString();
                                     });
                                   },
                                 )),
                           ],
                         ),
                       ]))),
+              _checkValue == "It's my first time"
+                  ? Row(
+                      children: [
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text("How Do You Hear About Us ?".getlocal(context),
+                            style: TextStyle(
+                                color: HexColor("#eae6d9"),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold)),
+                        Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: PopupMenuButton(
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1,
+                                          color: HexColor("#eae6d9"))),
+                                  width: 200,
+                                  height: 70,
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          _visitValue?.getlocal(context) ?? "",
+                                          style: TextStyle(
+                                              color: HexColor("#eae6d9"),
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Icon(
+                                          Icons.arrow_drop_down,
+                                          size: 30,
+                                          color: HexColor("#eae6d9"),
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                              itemBuilder: (BuildContext bc) {
+                                return _reach
+                                    .map((day) => PopupMenuItem(
+                                          child: Text(
+                                            day.getlocal(context),
+                                            style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          value: day,
+                                        ))
+                                    .toList();
+                              },
+                              onSelected: (value) {
+                                setState(() {
+                                  _visitValue =
+                                      value.toString().getlocal(context);
+                                  reach = value.toString();
+                                });
+                              },
+                            )),
+                      ],
+                    )
+                  : SizedBox(),
               Row(
                 children: [
                   Padding(
@@ -393,7 +472,6 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                         });
                       });
 
-                      print(questions);
                       HttpClient.instance.postRating(
                           "https://menu.baythalab.com/api/submit-form",
                           {
@@ -402,6 +480,7 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                             "table_number": tableNumber,
                             "suggestion": otherNotesString,
                             "questions": questions,
+                            "reach": reach,
                             "visit": _selectedItem,
                           },
                           (success, data) => {
@@ -621,6 +700,7 @@ class _QuestionListViewState extends State<QuestionListView> {
                                 ],
                                 backgroundColorItem: Colors.black26,
                                 textColor: HexColor("#eae6d9"),
+                                selectedTextColor: Colors.white,
                                 isScrolling: false,
                                 onItemSelected: (values) {
                                   var value = {

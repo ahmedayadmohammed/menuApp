@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:menu_app/Languages/Localizations.dart';
 import 'package:menu_app/extensions/key.dart';
-
 
 const String LAGUAGE_CODE = 'languageCode';
 
@@ -28,7 +26,7 @@ Locale _locale(String languageCode) {
     case ARABIC:
       return Locale(ARABIC, "SA");
     default:
-      return Locale(ENGLISH, 'US');
+      return Locale(ENGLISH, 'SA');
   }
 }
 
