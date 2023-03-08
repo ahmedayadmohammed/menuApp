@@ -29,7 +29,9 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
 
   TextEditingController txtController = TextEditingController();
   TextEditingController txtController2 = TextEditingController();
-  TextEditingController txtController3 = TextEditingController();
+  TextEditingController noteTextController = TextEditingController();
+  TextEditingController peapleNumber = TextEditingController();
+
   TextEditingController txtTableController = TextEditingController();
 
   bool isSent = false;
@@ -40,6 +42,7 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
 
   String? phoneNumber = "";
   String? customerName = "";
+  int? visitors = 0;
   String? tableNumber = "";
   String? otherNotes = "";
   String _selectedItem = 'Daily';
@@ -96,7 +99,6 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
   void dispose() {
     txtController.dispose();
     txtController2.dispose();
-    txtController3.dispose();
     txtTableController.dispose();
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     super.dispose();
@@ -148,46 +150,115 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                               children: [
                                 Align(
                                     alignment: Alignment.topRight,
-                                    child: Container(
-                                      margin: EdgeInsets.all(9),
-                                      width: 300,
-                                      child: TextField(
-                                        style: TextStyle(
-                                            color: HexColor("#eae6d9"),
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                        controller: txtTableController,
-                                        keyboardType: TextInputType.phone,
-                                        decoration: InputDecoration(
-                                            fillColor: Colors.white,
-                                            border: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                              color: Colors.white,
-                                              width: 4.0,
-                                            )),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Colors.white,
-                                                width: 4.0,
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.all(9),
+                                          width: 300,
+                                          child: Column(
+                                            children: [
+                                              TextField(
+                                                style: TextStyle(
+                                                    color: HexColor("#eae6d9"),
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                controller: txtTableController,
+                                                keyboardType:
+                                                    TextInputType.phone,
+                                                decoration: InputDecoration(
+                                                    fillColor: Colors.white,
+                                                    border: OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                      color: Colors.white,
+                                                      width: 4.0,
+                                                    )),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                        color: Colors.white,
+                                                        width: 4.0,
+                                                      ),
+                                                    ),
+                                                    suffixIcon: Icon(
+                                                      Icons.table_view,
+                                                      color: Colors.white,
+                                                    ),
+                                                    labelText: "Table Number"
+                                                        .getlocal(context),
+                                                    labelStyle: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: myFocusNodes4
+                                                                .hasFocus
+                                                            ? Colors.white
+                                                            : Colors.white38),
+                                                    hintText: "Table Number"
+                                                        .getlocal(context)),
+                                                onChanged: (text) {
+                                                  tableNumber = text;
+                                                },
                                               ),
-                                            ),
-                                            suffixIcon: Icon(
-                                              Icons.table_view,
-                                              color: Colors.white,
-                                            ),
-                                            labelText: "Table Number"
-                                                .getlocal(context),
-                                            labelStyle: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: myFocusNodes4.hasFocus
-                                                    ? Colors.white
-                                                    : Colors.white38),
-                                            hintText: "Table Number"
-                                                .getlocal(context)),
-                                        onChanged: (text) {
-                                          tableNumber = text;
-                                        },
-                                      ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                            margin: EdgeInsets.all(9),
+                                            width: 300,
+                                            child: Column(
+                                              children: [
+                                                TextField(
+                                                  style: TextStyle(
+                                                      color:
+                                                          HexColor("#eae6d9"),
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                  controller: peapleNumber,
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  decoration: InputDecoration(
+                                                      fillColor: Colors.white,
+                                                      border:
+                                                          OutlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                        color: Colors.white,
+                                                        width: 4.0,
+                                                      )),
+                                                      focusedBorder:
+                                                          OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                          color: Colors.white,
+                                                          width: 4.0,
+                                                        ),
+                                                      ),
+                                                      suffixIcon: Icon(
+                                                        Icons.groups_2,
+                                                        color: Colors.white,
+                                                      ),
+                                                      labelText:
+                                                          "Visitors Number"
+                                                              .getlocal(
+                                                                  context),
+                                                      labelStyle: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: myFocusNode
+                                                                  .hasFocus
+                                                              ? Colors.white
+                                                              : Colors.white38),
+                                                      hintText:
+                                                          "Visitors Number"
+                                                              .getlocal(
+                                                                  context)),
+                                                  onChanged: (text) {
+                                                    visitors = int.parse(text);
+                                                  },
+                                                ),
+                                              ],
+                                            )),
+                                      ],
                                     )),
                                 SizedBox(
                                   height: 14,
@@ -204,7 +275,6 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold),
                                           controller: txtController2,
-                                          textAlign: TextAlign.right,
                                           decoration: InputDecoration(
                                               fillColor: HexColor("#eae6d9"),
                                               border: OutlineInputBorder(
@@ -237,43 +307,49 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                                     Container(
                                         margin: EdgeInsets.all(9),
                                         width: 300,
-                                        child: TextField(
-                                          style: TextStyle(
-                                              color: HexColor("#eae6d9"),
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
-                                          controller: txtController,
-                                          keyboardType: TextInputType.phone,
-                                          textAlign: TextAlign.right,
-                                          decoration: InputDecoration(
-                                              fillColor: Colors.white,
-                                              border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                color: Colors.white,
-                                                width: 4.0,
-                                              )),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: Colors.white,
-                                                  width: 4.0,
-                                                ),
-                                              ),
-                                              suffixIcon: Icon(
-                                                Icons.phone,
-                                                color: Colors.white,
-                                              ),
-                                              labelText: "Phone Number"
-                                                  .getlocal(context),
-                                              labelStyle: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: myFocusNode.hasFocus
-                                                      ? Colors.white
-                                                      : Colors.white38),
-                                              hintText: "Phone Number"
-                                                  .getlocal(context)),
-                                          onChanged: (text) {
-                                            phoneNumber = text;
-                                          },
+                                        child: Column(
+                                          children: [
+                                            TextField(
+                                              style: TextStyle(
+                                                  color: HexColor("#eae6d9"),
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
+                                              controller: txtController,
+                                              keyboardType: TextInputType.phone,
+                                              decoration: InputDecoration(
+                                                  fillColor: Colors.white,
+                                                  border: OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                    color: Colors.white,
+                                                    width: 4.0,
+                                                  )),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color: Colors.white,
+                                                      width: 4.0,
+                                                    ),
+                                                  ),
+                                                  suffixIcon: Icon(
+                                                    Icons.phone,
+                                                    color: Colors.white,
+                                                  ),
+                                                  labelText: "Phone Number"
+                                                      .getlocal(context),
+                                                  labelStyle: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color:
+                                                          myFocusNode.hasFocus
+                                                              ? Colors.white
+                                                              : Colors.white38),
+                                                  hintText: "Phone Number"
+                                                      .getlocal(context)),
+                                              onChanged: (text) {
+                                                phoneNumber = text;
+                                              },
+                                            ),
+                                          ],
                                         )),
                                   ]),
                                 )
@@ -374,7 +450,7 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                                       border: Border.all(
                                           width: 1,
                                           color: HexColor("#eae6d9"))),
-                                  width: 200,
+                                  width: 250,
                                   height: 70,
                                   child: Center(
                                     child: Row(
@@ -446,13 +522,61 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                     // print(hitMeRating);
                   },
                 ),
-                QuestionText(
-                  myFocusNodes3: myFocusNodes3,
-                  txtController3: txtController3,
-                  otherNotes: (otherss) {
-                    otherNotesString = otherss;
-                  },
-                )
+                Column(children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Text("Other Notes".getlocal(context),
+                            style: TextStyle(
+                                color: HexColor("#eae6d9"),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                    ],
+                  ),
+                  Container(
+                      margin: EdgeInsets.all(10),
+                      width: MediaQuery.of(context).size.width,
+                      height: 100,
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: TextField(
+                          controller: noteTextController,
+                          maxLines: 4,
+                          style: TextStyle(
+                              color: HexColor("#eae6d9"),
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold),
+                          onChanged: (text) {
+                            noteTextController.text = text;
+                          },
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                color: Colors.white,
+                                width: 4.0,
+                              )),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.white,
+                                  width: 2.0,
+                                ),
+                              ),
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Icon(
+                                  Icons.reviews_outlined,
+                                  size: 30,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              hintText: "Other Notes".getlocal(context)),
+                        ),
+                      )),
+                ])
               ])),
               SafeArea(
                 child: InkWell(
@@ -473,15 +597,16 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
                       });
 
                       HttpClient.instance.postRating(
-                          "https://menu.baythalab.com/api/submit-form",
+                          "http://192.168.1.1:8080/api/submit-form",
                           {
                             "customer_name": customerName,
                             "customer_phone": phoneNumber,
                             "table_number": tableNumber,
-                            "suggestion": otherNotesString,
+                            "suggestion": noteTextController.text,
                             "questions": questions,
                             "reach": reach,
                             "visit": _selectedItem,
+                            "visitors": visitors
                           },
                           (success, data) => {
                                 if (success)
@@ -545,77 +670,25 @@ class _RatingControllerWidgetState extends State<RatingControllerWidget> {
   }
 }
 
-class QuestionText extends StatelessWidget {
-  final Function(String otherNotes) otherNotes;
-  final FocusNode myFocusNodes3;
-  final TextEditingController txtController3;
-  const QuestionText({
-    Key? key,
-    required this.otherNotes,
-    required this.myFocusNodes3,
-    required this.txtController3,
-  }) : super(key: key);
+// class QuestionText extends StatefulWidget {
+//   final Function(String otherNotes) otherNotes;
+//   final TextEditingController txtController3;
+//   const QuestionText({
+//     Key? key,
+//     required this.otherNotes,
+//     required this.txtController3,
+//   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(children: [
-      Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Text("Other Notes".getlocal(context),
-                style: TextStyle(
-                    color: HexColor("#eae6d9"),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold)),
-          ),
-        ],
-      ),
-      Container(
-          margin: EdgeInsets.all(10),
-          width: MediaQuery.of(context).size.width,
-          height: 100,
-          child: Align(
-            alignment: Alignment.topRight,
-            child: TextField(
-              focusNode: myFocusNodes3,
-              maxLines: 4,
-              style: TextStyle(
-                  color: HexColor("#eae6d9"),
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold),
-              keyboardType: TextInputType.text,
-              textAlign: TextAlign.right,
-              decoration: InputDecoration(
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                    color: Colors.white,
-                    width: 4.0,
-                  )),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.white,
-                      width: 4.0,
-                    ),
-                  ),
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.reviews_outlined,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                  ),
-                  hintText: "Other Notes".getlocal(context)),
-              onChanged: (text) {
-                otherNotes(text);
-              },
-            ),
-          )),
-    ]);
-  }
-}
+//   @override
+//   State<QuestionText> createState() => _QuestionTextState();
+// }
+
+// class _QuestionTextState extends State<QuestionText> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return
+//   }
+// }
 
 class QuestionListView extends StatefulWidget {
   final GroupController controller;
@@ -638,9 +711,13 @@ class _QuestionListViewState extends State<QuestionListView> {
   List<TextEditingController> textList = [];
   @override
   void initState() {
-    HttpClient.instance
-        .getAllQuestions("http://192.168.123.1:9000/api/form")
-        .then((value) => questions.add(value));
+    // HttpClient.instance
+    //     .getAllQuestions("http://192.168.1.1:8080/api/form")
+    //     .then((value) {
+    //   print("this value of rating list ${value.data?.questions}");
+    //   questions.add(value);
+    //   setState(() {});
+    // });
     print(questions);
     super.initState();
   }
@@ -742,8 +819,29 @@ class _QuestionListViewState extends State<QuestionListView> {
                     ));
               },
             );
+          } else if (model.item?.status == Status.LOADING) {
+            return model.item!.indicator ??
+                Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                );
+          } else if (model.item?.status == Status.ERROR) {
+            print(model.item?.message);
+
+            return model.item!.indicator ??
+                Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                );
           } else {
-            return model.item!.indicator ?? Container();
+            return model.item!.indicator ??
+                Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                );
           }
         }));
   }

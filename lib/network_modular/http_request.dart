@@ -101,9 +101,9 @@ class HttpClient {
 
   Future<PostResponse> postRating(String url, Map<String, dynamic> para,
       completionHandler(bool success, PostResponse? data)) async {
-
     Response response;
     response = await dio.post(url, data: para);
+    print(para);
     switch (response.statusCode) {
       case 200:
         completionHandler(true,
@@ -134,6 +134,8 @@ class HttpClient {
     try {
       var response = await dio.post(url, data: para);
       print(response.data);
+      print("login url $url");
+
       if (response.statusCode == 200) {
         Map<String, dynamic> data =
             new Map<String, dynamic>.from(response.data);

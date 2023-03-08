@@ -45,10 +45,12 @@
     "Reason": "السبب",
     "New Version Avialable Press To Download":"يوجد تحديث نظام جديدة يرجى الضغط للتحميل ",
     "No Update Found In This Time":"لا يوجد تحديثات في الوقت الحالي",
-    "Social Media" :"مواقع التواصل ",
-    "Friends":"عن طريق الاصدقاء",
+    "Social Media" :"مواقع التواصل الاجتماعي",
+    "Friends":"صديق او اقار",
     "Celebrity":"شخصية مشهورة",
     "Coincidentally":"بالصدفة",
-    "How Do You Hear About Us ?" :"كيف سمعت عنا ؟"
+    "How Do You Hear About Us ?" :"كيف سمعت عنا ؟",
+    "Visitors Number" : "عدد الزائرين"
+
 
 }

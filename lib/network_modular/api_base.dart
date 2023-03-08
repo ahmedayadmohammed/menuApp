@@ -3,9 +3,9 @@ import 'package:flutter/foundation.dart';
 class APIBase {
   static String get baseURL {
     if (kReleaseMode) {
-      return "https://menu.baythalab.com/api/";
+      return "http://192.168.1.1:8080/api/";
     } else {
-      return "https://menu.baythalab.com/api/";
+      return "http://192.168.1.1:8080/api/";
     }
   }
 }

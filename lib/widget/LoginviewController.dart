@@ -99,6 +99,7 @@ class _LoginViewControllerState extends State<LoginViewController> {
                           setState(() {
                             isSuccesss = true;
                           });
+                          print(APIPathHelper.getValue(APIPath.login));
                           HttpClient.instance.login(
                               APIPathHelper.getValue(APIPath.login),
                               context,

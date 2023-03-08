@@ -6,8 +6,8 @@ import '../network_modular/api_path.dart';
 
 class BillsRepository {
   Future<QuestionsResponse> fetchItems() async {
-    final response = await HttpClient.instance
-        .fetchData("https://menu.baythalab.com/api/form");
+    final response =
+        await HttpClient.instance.fetchData("http://192.168.1.1:8080/api/form");
     Map<String, dynamic> data = new Map<String, dynamic>.from(response);
     return QuestionsResponse.fromJson(data);
   }

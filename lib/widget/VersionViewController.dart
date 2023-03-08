@@ -75,16 +75,18 @@ class _CheckVersionViewControllerState
                         SizedBox(
                           height: 120,
                         ),
-                        appVersionKey != v!.appVersion
+                        appVersionKey != "1.5"
                             ? InkWell(
                                 onTap: () {
                                   setState(() {
-                                    _launched = _openUrl(v.apkUrl ?? "");
+                                    _launched = _openUrl(v?.apkUrl ?? "");
                                   });
                                 },
                                 child: Container(
                                     child: Center(
-                                      child: Text("New Version Avialable Press To Download".getlocal(context),
+                                      child: Text(
+                                          "New Version Avialable Press To Download"
+                                              .getlocal(context),
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 18)),
@@ -97,7 +99,9 @@ class _CheckVersionViewControllerState
                                         borderRadius:
                                             BorderRadius.circular(50))),
                               )
-                            : Text("No Update Found In This Time".getlocal(context),
+                            : Text(
+                                "No Update Found In This Time"
+                                    .getlocal(context),
                                 style: TextStyle(
                                     color: Colors.white54, fontSize: 24))
                       ],

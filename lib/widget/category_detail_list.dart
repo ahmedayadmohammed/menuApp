@@ -209,7 +209,7 @@ class _ItemsListState extends State<ItemsList> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: HttpClient.instance.getAllDataofHome(
-          "https://menu.baythalab.com/api/category/${widget.id}"),
+          "http://192.168.1.1:8080/api/category/${widget.id}"),
       builder: (BuildContext context, AsyncSnapshot<Foodresponse> snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.hasData &&
